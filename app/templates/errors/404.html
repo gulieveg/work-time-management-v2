@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}Страница не найдена{% endblock title %}
+
+{% block content %}
+    <div class="error-container">
+        <p style="margin: 10px 0;">Упс! Страница, которую вы ищете, не найдена.</p>
+        <p style="margin-top: 4px; margin-bottom: 24px;">Возможно, вы ввели неправильный адрес или страница была удалена.</p>
+        <a href="{{ url_for('auth.login') }}" class="default-button btn-home">Вернуться на главную</a>
+    </div>
+{% endblock content %}

@@ -1,0 +1,39 @@
+{% extends "control/base.html" %}
+
+{% block title %}Формирование отчетов{% endblock title %}
+
+{% block content %}
+    <div class="panel">
+        <form method="GET" style="width: 900px">
+            <div class="filter-container">
+                <div class="filter-item">
+                    <label for="start_date">Начало периода</label>
+                    <input
+                        type="date"
+                        name="start_date"
+                        value="{{ request.args.get('start_date') }}"
+                        style="cursor: pointer; padding-left: 12px;"
+                    />
+                </div>
+                <div class="filter-item">
+                    <label for="end_date">Конец периода</label>
+                    <input
+                        type="date"
+                        name="end_date"
+                        value="{{ request.args.get('end_date') }}"
+                        style="cursor: pointer; padding-left: 12px;"
+                    />
+                </div>
+            </div>
+
+            <div class="filter-actions">
+                <button type="submit" name="export" value="true" class="default-button">
+                    <i class="fas fa-arrow-down"></i>Скачать отчет
+                </button>
+                <button type="button" class="default-button btn-filters-reset">
+                    <i class="fas fa-eraser"></i>Сбросить фильтры
+                </button>
+            </div>
+        </form>
+    </div>
+{% endblock content %}

@@ -1,0 +1,75 @@
+{% extends "control/base.html" %}
+{% from "macros/crud_tabs.html" import crud_tabs %}
+{% from "macros/filter_input.html" import filter_input %}
+{% from "macros/pagination.html" import render_pagination %}
+
+{% block title %}Управление заказами{% endblock title %}
+
+{% block content %}
+    <div class="panel">
+        {{ crud_tabs('control.orders.orders_table', 'control.orders.add_order', list_label='Список заказов', add_label='Добавить заказ', active_tab='list') }}
+
+        <form method="GET">
+            <div class="filter-container">
+                {{ filter_input('Фильтр по номеру заказа', 'order_number', request.args.get('order_number', ''), 'fa-hashtag', 'order-number', 'Номер заказа') }}
+                {{ filter_input('Фильтр по наименованию заказа', 'order_name', request.args.get('order_name', ''), 'fa-cogs', 'order-name', 'Наименование заказа') }}
+            </div>
+
+            <div class="filter-actions">
+                <button type="submit" class="default-button btn-filters-reset">
+                    <i class="fas fa-eraser"></i>Сбросить фильтры
+                </button>
+                <button type="submit" class="default-button">
+                    <i class="fas fa-play"></i>Применить фильтры
+                </button>
+            </div>
+        </form>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 5%;">&numero;</th>
+                    <th style="width: 18%;">Номер заказа</th>
+                    <th style="width: 62%;">Наименование заказа</th>
+                    <th style="width: 15%;">Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% set filtered_orders_page = filtered_orders_page | default([]) %}
+                {% for order_id, order_number, order_name in filtered_orders_page %}
+                    {% set page = page | default(1) %}
+                    {% set page_size = 9 %}
+                    <tr>
+                        <td>{{ loop.index + (page - 1) * page_size }}</td>
+                        <td>{{ order_number }}</td>
+                        <td>{{ order_name }}</td>
+                        <td class="actions-container">
+                            <form method="GET" action="{{ url_for('control.works.works_table') }}">
+                                <input type="hidden" name="order_number" value="{{ order_number }}">
+                                <button type="submit" class="icon-button btn-works-view tooltip">
+                                    <i class="fas fa-briefcase"></i>
+                                    <span class="tooltiptext">Посмотреть перечень работ</span>
+                                </button>
+                            </form>
+                            <form method="GET" action="{{ url_for('control.orders.edit_order', order_id=order_id) }}">
+                                <button type="submit" class="icon-button btn-edit tooltip">
+                                    <i class="fas fa-edit"></i>
+                                    <span class="tooltiptext">Редактировать заказ</span>
+                                </button>
+                            </form>
+                            <form method="POST" action="{{ url_for('control.orders.delete_order', order_id=order_id) }}">
+                                <input type="hidden" name="page" value="{{ page }}">
+                                <button type="submit" class="icon-button btn-delete tooltip" data-action="delete-order">
+                                    <i class="fas fa-trash"></i>
+                                    <span class="tooltiptext">Удалить заказ</span>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {{ render_pagination(page, filtered_orders|length, endpoint='control.orders.orders_table') }}
+    </div>
+{% endblock content %}

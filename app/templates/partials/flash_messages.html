@@ -1,0 +1,28 @@
+<div class="toast-container">
+    {% for category, message in get_flashed_messages(with_categories=true) %}
+        {% set icon_map = {
+            'info': 'fa-info-circle',
+            'warning': 'fa-exclamation-triangle',
+            'error': 'fa-times-circle',
+            'success': 'fa-check-circle'
+        } %}
+        {% set title_map = {
+            'info': 'Информация',
+            'warning': 'Внимание',
+            'error': 'Ошибка',
+            'success': 'Успешно'
+        } %}
+        <div class="toast {{ category }}" id="message">
+            <div class="toast-icon">
+                <i class="fas {{ icon_map.get(category, 'fa-info-circle') }}"></i>
+            </div>
+            <div class="toast-content">
+                <div class="toast-title">{{ title_map.get(category, 'Сообщение') }}</div>
+                <div class="toast-message">{{ message }}</div>
+            </div>
+            <button class="toast-close" onclick="this.parentElement.classList.add('hiding'); this.parentElement.addEventListener('animationend', () => this.parentElement.remove(), { once: true });">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    {% endfor %}
+</div>

@@ -1,0 +1,40 @@
+.form-group {
+    max-width: var(--width-form);
+    min-width: 200px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: var(--space-2);
+    font-weight: var(--font-semibold);
+    color: var(--text-label);
+    font-size: var(--text-sm);
+}
+
+.form-group > div {
+    width: 100%;
+    position: relative;
+}
+
+.form-group input {
+    outline: none;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.form-group input:focus {
+    border-color: var(--border-focus);
+    box-shadow: var(--shadow-focus);
+}
+
+.form-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    max-width: var(--width-form);
+}
+
+.form-buttons button,
+.form-buttons a {
+    flex: 1 1 calc(50% - var(--space-2));
+    min-width: 200px;
+}

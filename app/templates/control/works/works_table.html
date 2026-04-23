@@ -1,0 +1,76 @@
+{% extends "control/base.html" %}
+{% from "macros/crud_tabs.html" import crud_tabs %}
+{% from "macros/filter_input.html" import filter_input %}
+{% from "macros/pagination.html" import render_pagination %}
+
+{% block title %}Управление работами{% endblock title %}
+
+{% block content %}
+    <div class="panel">
+        {{ crud_tabs('control.works.works_table', 'control.works.add_work', list_label='Список работ', add_label='Добавить работу', active_tab='list') }}
+
+        <form method="GET">
+            <div class="filter-container">
+                {{ filter_input('Фильтр по номеру заказа', 'order_number', request.args.get('order_number', ''), 'fa-hashtag', 'order-number', 'Номер заказа') }}
+                {{ filter_input('Фильтр по наименованию работы', 'work_name', request.args.get('work_name', ''), 'fa-cogs', 'work-name', 'Наименование работы') }}
+            </div>
+
+            <div class="filter-actions">
+                <button type="submit" class="default-button btn-filters-reset">
+                    <i class="fas fa-eraser"></i>Сбросить фильтры
+                </button>
+                <button type="submit" class="default-button">
+                    <i class="fas fa-play"></i>Применить фильтры
+                </button>
+            </div>
+        </form>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 5%;">&numero;</th>
+                    <th style="width: 16%;">Номер заказа</th>
+                    <th style="width: 30%;">Наименование работы</th>
+                    <th style="width: 13%;">Плановая трудоемкость</th>
+                    <th style="width: 13%;">Фактическая трудоемкость</th>
+                    <th style="width: 13%;">Остаточная трудоемкость</th>
+                    <th style="width: 10%;">Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% set filtered_works_page = filtered_works_page | default([]) %}
+                {% for work_id, order_number, work_name, planned_hours, spent_hours, remaining_hours in filtered_works_page %}
+                    {% set page = page | default(1) %}
+                    {% set page_size = 10 %}
+                    <tr>
+                        <td>{{ loop.index + (page - 1) * page_size }}</td>
+                        <td>{{ order_number }}</td>
+                        <td>{{ work_name }}</td>
+                        <td>{{ planned_hours }}</td>
+                        <td>{{ spent_hours }}</td>
+                        <td>{{ remaining_hours }}</td>
+                        <td class="actions-container">
+                            <form method="GET" action="{{ url_for('control.works.edit_work', work_id=work_id) }}">
+                                <button type="submit" class="icon-button btn-edit tooltip">
+                                    <i class="fas fa-edit"></i>
+                                    <span class="tooltiptext">Редактировать работу</span>
+                                </button>
+                            </form>
+                            <form method="POST" action="{{ url_for('control.works.delete_work', work_id=work_id) }}">
+                                <input type="hidden" name="page" value="{{ page }}">
+                                <input type="hidden" name="order_number" value="{{ order_number }}">
+                                <button type="submit" class="icon-button btn-delete tooltip" data-action="delete-work">
+                                    <i class="fas fa-trash"></i>
+                                    <span class="tooltiptext">Удалить работу</span>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% set works_extra_params = {'order_number': request.args.get('order_number', ''), 'work_name': request.args.get('work_name', '')} %}
+        {{ render_pagination(page, filtered_works|length, endpoint='control.works.works_table', extra_params=works_extra_params) }}
+    </div>
+{% endblock content %}

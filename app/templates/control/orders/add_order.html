@@ -1,0 +1,85 @@
+{% extends "control/base.html" %}
+{% from "macros/crud_tabs.html" import crud_tabs %}
+{% from "macros/form_field.html" import form_field %}
+{% from "macros/form_buttons.html" import form_buttons %}
+
+{% block title %}Добавление заказа{% endblock title %}
+
+{% block content %}
+    <div class="panel">
+        {{ crud_tabs('control.orders.orders_table', 'control.orders.add_order', list_label='Список заказов', add_label='Добавить заказ', active_tab='add') }}
+
+        <form method="POST" enctype="multipart/form-data">
+            {{ form_field('Номер заказа', 'order_number', request.form.get('order_number', ''), 'text', 'fa-hashtag', 'Номер заказа', 'order-number', true) }}
+
+            {{ form_field('Наименование заказа', 'order_name', request.form.get('order_name', ''), 'text', 'fa-cogs', 'Наименование заказа', 'order-name', true) }}
+
+            <p class="section-heading">Перечень работ для заказа</p>
+
+            <div class="sub-tabs">
+                <button type="button" class="sub-tab active" data-tab="file-upload-tab">
+                    <i class="fas fa-file-upload"></i>Загрузка таблицы
+                </button>
+                <button type="button" class="sub-tab" data-tab="manual-entry-tab">
+                    <i class="fas fa-edit"></i>Ручное заполнение
+                </button>
+            </div>
+
+            <div class="tab-panel active" id="file-upload-tab">
+                <div class="form-group">
+                    <p class="file-hint">
+                        Формат: первая колонка — наименование работы, вторая — плановая трудоемкость.
+                        Допустимые расширения: XLSX, XLS
+                    </p>
+
+                    <div class="file-input-group">
+                        <input
+                            type="file"
+                            name="file_upload"
+                            class="file-input"
+                            accept=".xlsx,.xls"
+                        />
+                        <button type="button" class="btn-file-choose">Выбрать таблицу</button>
+                        <span class="file-input-label">Таблица не выбрана</span>
+                        <button type="button" class="btn-file-remove">&times;</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-panel" id="manual-entry-tab">
+                <div class="form-group">
+                    <p class="file-hint">
+                        Введите наименование работы и плановую трудоемкость. Можно добавить несколько строк.
+                    </p>
+                    <table class="works-grid">
+                        <thead>
+                            <tr>
+                                <th style="width: 70%;">Наименование работы</th>
+                                <th style="width: 20%;">Плановая трудоемкость</th>
+                                <th style="width: 10%;"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="works-body">
+                            <tr>
+                                <td><input type="text" name="work_name[]" autocomplete="off"></td>
+                                <td><input type="number" name="work_planned_hours[]" step="0.01" min="0"></td>
+                                <td><button type="button" class="btn-row-delete">&times;</button></td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3">
+                                    <button type="button" id="btn-row-add" class="btn-row-add">&plus;</button>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+
+            {{ form_buttons('Сохранить заказ', url_for('control.orders.orders_table')) }}
+        </form>
+
+        {% include "partials/flash_messages.html" %}
+    </div>
+{% endblock content %}

@@ -1,0 +1,15 @@
+{% macro crud_tabs(list_endpoint, add_endpoint, edit_endpoint=None, list_label='', add_label='', edit_label='', active_tab='list') %}
+<div class="tabs">
+    <form method="GET" action="{{ url_for(list_endpoint) }}">
+        <button class="tab-button {{ 'active' if active_tab == 'list' }}"><i class="fas fa-list"></i>{{ list_label }}</button>
+    </form>
+    <form method="GET" action="{{ url_for(add_endpoint) }}">
+        <button class="tab-button {{ 'active' if active_tab == 'add' }}"><i class="fas fa-plus"></i>{{ add_label }}</button>
+    </form>
+    {% if edit_endpoint %}
+    <form method="GET" action="{{ url_for(edit_endpoint) }}">
+        <button class="tab-button {{ 'active' if active_tab == 'edit' }}"><i class="fas fa-edit"></i>{{ edit_label }}</button>
+    </form>
+    {% endif %}
+</div>
+{% endmacro %}

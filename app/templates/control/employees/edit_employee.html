@@ -1,0 +1,96 @@
+{% extends "control/base.html" %}
+{% from "macros/crud_tabs.html" import crud_tabs %}
+{% from "macros/form_field.html" import form_field %}
+{% from "macros/form_buttons.html" import form_buttons %}
+
+{% block title %}Редактирование работника{% endblock title %}
+
+{% block content %}
+    <div class="panel">
+        {{ crud_tabs('control.employees.employees_table', 'control.employees.add_employee', 'control.employees.edit_employee', list_label='Список работников', add_label='Добавить работника', edit_label='Редактирование работника', active_tab='edit') }}
+
+        <form method="POST">
+            <div class="form-group">
+                <label>ФИО работника</label>
+                <div>
+                    <i class="fas fa-user"></i>
+                    <input
+                        type="text"
+                        name="employee_name"
+                        value="{{ employee_name }}"
+                        class="employee-name"
+                        placeholder="ФИО работника"
+                        autocomplete="off"
+                        required
+                    />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Таб. номер работника</label>
+                <div>
+                    <i class="fas fa-hashtag"></i>
+                    <input
+                        type="text"
+                        name="personnel_number"
+                        value="{{ personnel_number }}"
+                        class="personnel-number {% if personnel_number_error %}input-invalid{% endif %}"
+                        placeholder="Таб. номер работника"
+                        autocomplete="off"
+                        required
+                    />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Подразделение работника</label>
+                <div>
+                    <i class="fas fa-briefcase"></i>
+                    <input
+                        type="text"
+                        name="employee_department"
+                        value="{{ employee_department }}"
+                        class="employee-department"
+                        placeholder="Подразделение работника"
+                        autocomplete="off"
+                        required
+                    />
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <label class="dropdown-title">Категория работника</label>
+                <input type="checkbox" id="toggle-dropdown">
+
+                {% set selected_category = request.form.get("employee_category") %}
+                {% set is_selected = selected_category is not none and selected_category != "" %}
+
+                {% set categories = {
+                    "worker": "Рабочий",
+                    "specialist": "Специалист",
+                    "manager": "Руководитель",
+                } %}
+
+                <label for="toggle-dropdown" class="dropdown-label">
+                    <div>
+                        <i class="fas fa-tag"></i>
+                        <span class="selected">{{ categories.get(selected_category, categories[employee_category]) }}</span>
+                    </div>
+                    <i class="fas fa-chevron-down dropdown-icon"></i>
+                </label>
+
+                <div class="dropdown-content" id="dropdown-category">
+                    {% for key, name in categories.items() %}
+                        <label data-value="{{ key }}">{{ name }}</label>
+                    {% endfor %}
+                </div>
+
+                <input type="hidden" name="employee_category" value="{{ selected_category or employee_category }}">
+            </div>
+
+            {{ form_buttons('Сохранить изменения', url_for('control.employees.employees_table')) }}
+        </form>
+
+        {% include "partials/flash_messages.html" %}
+    </div>
+{% endblock content %}

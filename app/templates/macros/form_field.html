@@ -1,0 +1,18 @@
+{% macro form_field(label, name, value='', input_type='text', icon='fa-user', placeholder='', css_class='', required=False, extra_attrs='') %}
+<div class="form-group">
+    {% if label %}<label>{{ label }}</label>{% endif %}
+    <div>
+        {% if icon %}<i class="fas {{ icon }}"></i>{% endif %}
+        <input
+            type="{{ input_type }}"
+            name="{{ name }}"
+            value="{{ value }}"
+            class="{{ css_class }}"
+            placeholder="{{ placeholder }}"
+            autocomplete="off"
+            {% if required %}required{% endif %}
+            {{ extra_attrs }}
+        />
+    </div>
+</div>
+{% endmacro %}

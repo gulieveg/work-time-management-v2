@@ -1,0 +1,7 @@
+{% macro hidden_query_params() %}
+{% for param in request.args %}
+    {% for value in request.args.getlist(param) %}
+        <input type="hidden" name="{{ param }}" value="{{ value }}">
+    {% endfor %}
+{% endfor %}
+{% endmacro %}

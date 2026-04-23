@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome/font-awesome.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+        <link rel="icon" href="{{ url_for('static', filename='images/logo.png') }}" type="image/x-icon">
+        <title>{% block title %}{% endblock title %}</title>
+    </head>
+
+    <body data-is-factory-worker="{{ current_user.is_factory_worker }}" class="{% block body_class %}{% endblock %}">
+        <div class="app-wrapper">
+            {% block header %}
+            <header class="site-header">
+                <div class="header-left">
+                    <a href="{{ url_for('tasks.tasks_table') }}" class="header-brand">
+                        <div class="header-brand-icon">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                        <span>АРМ Мастер</span>
+                    </a>
+                    <div class="header-divider"></div>
+                    <div class="header-hint" data-tooltip="Информационно-аналитическая система управления заданиями">
+                        <i class="fas fa-info-circle"></i>
+                    </div>
+                </div>
+                <div class="header-right">
+                    {% if current_user.is_authenticated %}
+                        <div class="header-user">
+                            <div class="user-info">
+                                <span class="user-name">{{ current_user.name }}</span>
+                                <span class="user-role">
+                                    {% if current_user.is_admin %}
+                                        Администратор
+                                    {% elif current_user.permissions_level == "advanced" %}
+                                        Расширенный доступ
+                                    {% elif current_user.permissions_level == "minimal" %}
+                                        Ограниченный доступ
+                                    {% else %}
+                                        Стандартный доступ
+                                    {% endif %}
+                                </span>
+                            </div>
+                            <div class="user-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                        </div>
+                        <div class="header-actions">
+                            {% if current_user.permissions_level != "minimal" %}
+                                <a href="{{ url_for('tasks.add_task') }}" class="header-action-btn" data-tooltip="Создать новое задание">
+                                    <i class="fas fa-plus"></i>
+                                    <span>Новое задание</span>
+                                </a>
+                            {% endif %}
+                            <a href="{{ url_for('tasks.tasks_table') }}" class="header-action-btn" data-tooltip="Просмотр заданий">
+                                <i class="fas fa-list"></i>
+                                <span>Задания</span>
+                            </a>
+                            {% if current_user.permissions_level == "advanced" %}
+                                <a href="{{ url_for('control.index') }}" class="header-action-btn header-action-btn--accent" data-tooltip="Панель управления">
+                                    <i class="fas fa-cog"></i>
+                                    <span>Управление</span>
+                                </a>
+                            {% endif %}
+                            <a href="{{ url_for('help.index') }}" class="header-action-btn header-action-btn--help" data-tooltip="Справка и документация">
+                                <i class="fas fa-question-circle"></i>
+                            </a>
+                            <a href="{{ url_for('auth.logout') }}" class="header-action-btn header-action-btn--logout" data-tooltip="Выйти из системы">
+                                <i class="fas fa-sign-out-alt"></i>
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </header>
+            {% endblock %}
+
+            <div class="content-wrapper">
+                <div class="content">
+                    {% block content %}{% endblock content %}
+                </div>
+
+                {% block help_sidebar %}
+                <aside class="content-help">
+                    <div class="help-card">
+                        <div class="help-card-header">
+                            <i class="fas fa-lightbulb"></i>
+                            <span>Подсказка</span>
+                        </div>
+                        <div class="help-card-content">
+                            <p>Используйте фильтры для поиска нужных заданий. Нажмите на заголовки столбцов для сортировки.</p>
+                        </div>
+                    </div>
+                    <div class="help-card">
+                        <div class="help-card-header">
+                            <i class="fas fa-keyboard"></i>
+                            <span>Горячие клавиши</span>
+                        </div>
+                        <div class="help-card-content">
+                            <ul>
+                                <li><kbd>Esc</kbd> — закрыть подсказки</li>
+                                <li><kbd>Ctrl</kbd>+<kbd>F</kbd> — фокус на поиске</li>
+                            </ul>
+                        </div>
+                    </div>
+                </aside>
+                {% endblock %}
+            </div>
+        </div>
+
+        {% block flash_messages %}
+        {% include 'partials/flash_messages.html' %}
+        {% endblock %}
+    </body>
+</html>

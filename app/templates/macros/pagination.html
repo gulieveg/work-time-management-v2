@@ -1,0 +1,24 @@
+{% macro render_pagination(current_page, total_items, page_size=10, endpoint='', extra_params={}) %}
+    {% set total_pages = (total_items + page_size - 1) // page_size %}
+    <div class="footer-item">
+        <div class="pagination">
+            {% if current_page == 1 %}
+                <span class="pagination-link" style="visibility: hidden;"><i class="fas fa-angle-left"></i></span>
+            {% endif %}
+            {% if current_page > 1 %}
+                <a href="{{ url_for(endpoint, page=current_page - 1, **extra_params) }}" class="pagination-link">
+                    <i class="fas fa-angle-left"></i>
+                </a>
+            {% endif %}
+            <span>Страница {{ current_page }} / {{ total_pages }}</span>
+            {% if current_page < total_pages %}
+                <a href="{{ url_for(endpoint, page=current_page + 1, **extra_params) }}" class="pagination-link">
+                    <i class="fas fa-angle-right"></i>
+                </a>
+            {% endif %}
+            {% if current_page == total_pages %}
+                <span class="pagination-link" style="visibility: hidden;"><i class="fas fa-angle-right"></i></span>
+            {% endif %}
+        </div>
+    </div>
+{% endmacro %}

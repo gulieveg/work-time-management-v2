@@ -1,0 +1,202 @@
+@font-face {
+    font-family: 'Comfortaa';
+    src: url('/static/webfonts/comfortaa-regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+:root {
+    --color-surface-0: #ffffff;
+    --color-surface-50: #fafafa;
+    --color-surface-100: #f5f5f5;
+    --color-surface-200: #e5e5e5;
+    --color-surface-300: #d4d4d4;
+    --color-surface-400: #a3a3a3;
+    --color-surface-500: #737373;
+    --color-surface-600: #525252;
+    --color-surface-700: #404040;
+    --color-surface-800: #262626;
+    --color-surface-900: #171717;
+    --color-surface-950: #0a0a0a;
+
+    --color-brand-50: #eff6ff;
+    --color-brand-100: #dbeafe;
+    --color-brand-200: #bfdbfe;
+    --color-brand-300: #93c5fd;
+    --color-brand-400: #60a5fa;
+    --color-brand-500: #3b82f6;
+    --color-brand-600: #2563eb;
+    --color-brand-700: #1d4ed8;
+    --color-brand-800: #1e40af;
+    --color-brand-900: #1e3a8a;
+    --color-brand-950: #172554;
+
+    --color-emerald-50: #ecfdf5;
+    --color-emerald-100: #d1fae5;
+    --color-emerald-400: #34d399;
+    --color-emerald-500: #10b981;
+    --color-emerald-600: #059669;
+    --color-emerald-700: #047857;
+
+    --color-amber-50: #fffbeb;
+    --color-amber-100: #fef3c7;
+    --color-amber-400: #fbbf24;
+    --color-amber-500: #f59e0b;
+    --color-amber-600: #d97706;
+    --color-amber-700: #b45309;
+
+    --color-red-50: #fef2f2;
+    --color-red-100: #fee2e2;
+    --color-red-400: #f87171;
+    --color-red-500: #ef4444;
+    --color-red-600: #dc2626;
+    --color-red-700: #b91c1c;
+
+    --color-violet-50: #f5f3ff;
+    --color-violet-100: #ede9fe;
+    --color-violet-400: #a78bfa;
+    --color-violet-500: #8b5cf6;
+    --color-violet-600: #7c3aed;
+
+    --color-orange-50: #fff7ed;
+    --color-orange-100: #ffedd5;
+    --color-orange-400: #fb923c;
+    --color-orange-500: #f97316;
+    --color-orange-600: #ea580c;
+
+    --color-cyan-50: #ecfeff;
+    --color-cyan-100: #cffafe;
+    --color-cyan-400: #22d3ee;
+    --color-cyan-500: #06b6d4;
+    --color-cyan-600: #0891b2;
+
+    --color-white: #ffffff;
+
+    --bg-page: #f8f9fb;
+    --bg-surface: var(--color-surface-0);
+    --bg-surface-hover: var(--color-surface-50);
+    --bg-surface-active: var(--color-surface-100);
+    --bg-input: var(--color-surface-0);
+    --bg-input-hover: var(--color-surface-50);
+    --bg-overlay: rgba(0, 0, 0, 0.4);
+    --bg-disabled: var(--color-surface-100);
+    --bg-sidebar: #0f1117;
+    --bg-sidebar-hover: #1a1d27;
+    --bg-sidebar-active: #252836;
+    --bg-header: var(--color-surface-0);
+    --bg-table-header: #1a1d27;
+    --bg-table-stripe: var(--color-surface-50);
+    --bg-table-hover: var(--color-brand-50);
+    --bg-badge: var(--color-surface-100);
+
+    --text-primary: var(--color-surface-900);
+    --text-secondary: var(--color-surface-600);
+    --text-tertiary: var(--color-surface-400);
+    --text-inverse: var(--color-white);
+    --text-link: var(--color-brand-600);
+    --text-link-hover: var(--color-brand-700);
+    --text-sidebar: #8b8fa3;
+    --text-sidebar-hover: #c4c7d5;
+    --text-sidebar-active: var(--color-white);
+    --text-table-header: #c4c7d5;
+    --text-input: var(--color-surface-900);
+    --text-input-placeholder: var(--color-surface-400);
+    --text-label: var(--color-surface-700);
+    --text-heading: var(--color-surface-900);
+    --text-muted: var(--color-surface-500);
+    --text-on-brand: var(--color-white);
+
+    --border-default: var(--color-surface-200);
+    --border-strong: var(--color-surface-300);
+    --border-focus: var(--color-brand-500);
+    --border-error: var(--color-red-500);
+    --border-table: var(--color-surface-200);
+    --border-input: var(--color-surface-200);
+    --border-input-hover: var(--color-surface-300);
+    --border-header: var(--color-surface-200);
+    --border-card: var(--color-surface-200);
+    --border-sidebar: #1e2130;
+
+    --radius-xs: 4px;
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 10px;
+    --radius-xl: 12px;
+    --radius-2xl: 16px;
+    --radius-full: 9999px;
+
+    --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.03);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.06), 0 4px 6px rgba(0, 0, 0, 0.04);
+    --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.06), 0 8px 10px rgba(0, 0, 0, 0.04);
+    --shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.15);
+    --shadow-focus: 0 0 0 3px rgba(59, 130, 246, 0.15);
+    --shadow-focus-error: 0 0 0 3px rgba(239, 68, 68, 0.15);
+    --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.03);
+    --shadow-card-hover: 0 4px 12px rgba(0, 0, 0, 0.06), 0 2px 4px rgba(0, 0, 0, 0.04);
+    --shadow-dropdown: 0 12px 32px rgba(0, 0, 0, 0.08), 0 4px 8px rgba(0, 0, 0, 0.04);
+    --shadow-modal: 0 25px 60px rgba(0, 0, 0, 0.2);
+    --shadow-toast: 0 8px 24px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
+    --shadow-button: 0 1px 2px rgba(0, 0, 0, 0.06);
+    --shadow-button-hover: 0 2px 6px rgba(0, 0, 0, 0.08);
+
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 20px;
+    --space-6: 24px;
+    --space-8: 32px;
+    --space-10: 40px;
+    --space-12: 48px;
+    --space-16: 64px;
+    --space-20: 80px;
+
+    --font-sans: 'Comfortaa', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --font-mono: 'SF Mono', 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+
+    --text-xs: 11px;
+    --text-sm: 13px;
+    --text-base: 14px;
+    --text-lg: 15px;
+    --text-xl: 17px;
+    --text-2xl: 20px;
+    --text-3xl: 24px;
+    --text-4xl: 30px;
+
+    --font-normal: 400;
+    --font-medium: 500;
+    --font-semibold: 600;
+    --font-bold: 700;
+
+    --leading-tight: 1.25;
+    --leading-snug: 1.375;
+    --leading-normal: 1.5;
+    --leading-relaxed: 1.625;
+
+    --tracking-tight: -0.01em;
+    --tracking-normal: 0;
+    --tracking-wide: 0.025em;
+
+    --transition-fast: 120ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-base: 180ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 280ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slower: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+
+    --z-dropdown: 1000;
+    --z-sticky: 1020;
+    --z-fixed: 1030;
+    --z-modal-backdrop: 1040;
+    --z-modal: 1050;
+    --z-popover: 1060;
+    --z-tooltip: 1070;
+    --z-toast: 1080;
+
+    --width-content: 1400px;
+    --width-form: 560px;
+    --width-auth: 420px;
+    --width-sidebar: 260px;
+    --header-height: 60px;
+}

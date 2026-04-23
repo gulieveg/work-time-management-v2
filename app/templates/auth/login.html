@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% from "macros/form_field.html" import form_field %}
+
+{% block title %}Авторизация{% endblock title %}
+
+{% block body_class %}auth-page{% endblock %}
+
+{% block header %}{% endblock %}
+{% block help_sidebar %}{% endblock %}
+{% block footer %}{% endblock %}
+
+{% block content %}
+    <div class="auth-container">
+        <p class="paragraph">Авторизация</p>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="auth-messages">
+                {% for category, message in messages %}
+                    <div class="auth-message {{ category }}">
+                        <i class="fas {% if category == 'error' %}fa-times-circle{% elif category == 'warning' %}fa-exclamation-triangle{% else %}fa-info-circle{% endif %}"></i>
+                        <span>{{ message }}</span>
+                    </div>
+                {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        <form method="POST" action="{{ url_for('auth.login') }}">
+            {{ form_field('', 'login', login | default(''), 'text', 'fa-user', 'Логин', '', true) }}
+            <div class="form-group" style="margin-bottom: 10px;">
+                <i class="fas fa-lock" style="left: 14px;"></i>
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Пароль"
+                    value="{{ password | default('') }}"
+                    autocomplete="off"
+                    required
+                    style="padding-right: 40px;"
+                />
+                <i class="fas fa-eye toggle-password"></i>
+            </div>
+            <a href="{{ url_for('auth.register') }}" class="setup-password-link">Получили логин? Установите пароль</a>
+            <button type="submit" class="default-button btn-login">Вход в систему</button>
+        </form>
+    </div>
+{% endblock content %}

@@ -1,0 +1,23 @@
+.container {
+    display: flex;
+    padding: var(--space-4);
+    min-height: 100vh;
+    gap: var(--space-4);
+    background: var(--bg-page);
+}
+
+.filter-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+    margin-bottom: var(--space-5);
+}
+
+.filter-actions {
+    display: flex;
+    gap: var(--space-4);
+}
+
+.filter-actions button {
+    flex: 1 1 calc(50% - var(--space-2));
+}

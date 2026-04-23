@@ -1,0 +1,192 @@
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(180deg, #0f1117 0%, #1a1d27 100%);
+    color: var(--text-sidebar);
+    width: var(--width-sidebar);
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    align-self: flex-start;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-right: 1px solid var(--border-sidebar);
+}
+
+.sidebar-heading {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-5) var(--space-5);
+    font-size: var(--text-lg);
+    font-weight: var(--font-bold);
+    text-decoration: none;
+    color: var(--color-white);
+    border-bottom: 1px solid var(--border-sidebar);
+}
+
+.sidebar-heading-icon {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, var(--color-brand-500), var(--color-brand-400));
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.sidebar-heading-icon i {
+    color: var(--color-white);
+    font-size: var(--text-sm);
+}
+
+.sidebar-heading span {
+    font-size: var(--text-base);
+    letter-spacing: var(--tracking-wide);
+}
+
+.sidebar-divider {
+    height: 1px;
+    background: var(--border-sidebar);
+    margin: var(--space-2) var(--space-4);
+}
+
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding: var(--space-4);
+    flex: 1;
+}
+
+.sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-lg);
+    color: var(--text-sidebar);
+    font-size: var(--text-base);
+    font-weight: var(--font-medium);
+    text-decoration: none;
+    transition: all var(--transition-base);
+    position: relative;
+    overflow: hidden;
+}
+
+.sidebar-item::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--color-brand-500);
+    border-radius: 0 var(--radius-full) var(--radius-full) 0;
+    opacity: 0;
+    transition: opacity var(--transition-base);
+}
+
+.sidebar-item i {
+    font-size: var(--text-lg);
+    width: 20px;
+    text-align: center;
+    transition: color var(--transition-base);
+    flex-shrink: 0;
+    color: var(--text-tertiary);
+}
+
+.sidebar-item span {
+    flex: 1;
+}
+
+.sidebar-item:hover {
+    background: var(--bg-sidebar-hover);
+    color: var(--text-sidebar-hover);
+}
+
+.sidebar-item:hover i {
+    color: var(--text-sidebar-hover);
+}
+
+.sidebar-item.active {
+    background: var(--bg-sidebar-active);
+    color: var(--text-sidebar-active);
+}
+
+.sidebar-item.active::before {
+    opacity: 1;
+}
+
+.sidebar-item.active i {
+    color: var(--color-brand-400);
+}
+
+.sidebar-footer {
+    padding: var(--space-4);
+    border-top: 1px solid var(--border-sidebar);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.sidebar-footer-help {
+    margin-bottom: var(--space-2);
+}
+
+.help-link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-md);
+    color: var(--text-sidebar);
+    text-decoration: none;
+    font-size: var(--text-sm);
+    transition: all var(--transition-base);
+}
+
+.help-link:hover {
+    background: var(--bg-sidebar-hover);
+    color: var(--color-violet-400);
+}
+
+.help-link i {
+    font-size: var(--text-sm);
+}
+
+.sidebar-back {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-md);
+    background: transparent;
+    border: 1px solid var(--border-sidebar);
+    color: var(--text-sidebar);
+    text-decoration: none;
+    font-weight: var(--font-medium);
+    font-size: var(--text-base);
+    transition: all var(--transition-base);
+}
+
+.sidebar-back:hover {
+    background: var(--bg-sidebar-hover);
+    color: var(--text-sidebar-hover);
+    border-color: var(--color-surface-600);
+}
+
+.sidebar-back i {
+    transition: transform var(--transition-base);
+}
+
+.sidebar-back:hover i {
+    transform: translateX(-3px);
+}
+
+.sidebar-bottom {
+    padding: var(--space-4);
+    border-top: 1px solid var(--border-sidebar);
+}

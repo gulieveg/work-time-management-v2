@@ -1,0 +1,20 @@
+# Ignore the __pycache__ directory
+__pycache__/
+
+# Ignore the database connection file
+db_connection.py
+
+# Ignore the configuration JSON file
+config.json
+
+# Ignore the environment variables file
+.env
+
+# Ignore SQL script
+script.sql
+
+# Ignore format script
+format.sh
+
+# Ignore virtual environment
+venv/

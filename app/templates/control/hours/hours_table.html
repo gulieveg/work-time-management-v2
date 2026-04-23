@@ -1,0 +1,79 @@
+{% extends "control/base.html" %}
+{% from "macros/crud_tabs.html" import crud_tabs %}
+
+{% block title %}Ввод трудоемкости{% endblock title %}
+
+{% block content %}
+    <div class="panel">
+        {{ crud_tabs('control.hours.hours_table', 'control.hours.add_hours', list_label='Список часов', add_label='Внести трудоемкость', active_tab='list') }}
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 5%;">&numero;</th>
+                    <th style="width: 15%;">Номер заказа</th>
+                    <th style="width: 45%;">Наименование заказа</th>
+                    <th style="width: 10%;">Часы</th>
+                    <th style="width: 15%;">Дата добавления</th>
+                    <th style="width: 10%;">Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for hours_id, order_name, order_number, work_name, spent_hours, created_date, created_time in hours_list %}
+                    {% set page = page | default(1) %}
+                    {% set page_size = 10 %}
+                    <tr>
+                        <td>{{ loop.index + (page - 1) * page_size }}</td>
+                        <td>{{ order_number }}</td>
+                        <td>{{ order_name }}</td>
+                        <td>{{ spent_hours }}</td>
+                        <td>{{ created_date }}</td>
+                        <td class="actions-container">
+                            {# <form method="GET" action="#">
+                                <button type="submit" class="icon-button btn-edit tooltip">
+                                    <i class="fas fa-edit"></i>
+                                    <span class="tooltiptext">Редактировать часы</span>
+                                </button>
+                            </form> #}
+                            <form method="POST" action="{{ url_for('control.hours.delete_hours', hours_id=hours_id, order_number=order_number, work_name=work_name) }}">
+                                {# <input type="hidden" name="page" value="{{ page }}"> #}
+                                <button type="submit" class="icon-button btn-delete tooltip" data-action="delete-hours">
+                                    <i class="fas fa-trash"></i>
+                                    <span class="tooltiptext">Удалить часы</span>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {# <div class="section">
+            <div class="pagination">
+                {% set page = page | default(0) %}
+                {% set page_size = 10 %}
+                {% set total_hours = hours_list | length %}
+                {% set total_pages = (total_hours + page_size - 1) // page_size %}
+                {% if page == 1 %}
+                    <span class="pagination-link" style="visibility: hidden;"><i class="fas fa-angle-left"></i></span>
+                {% endif %}
+                {% if page > 1 %}
+                    {% set previous_page = page - 1 %}
+                    <a href="{{ url_for('control.hours.hours_table', page=previous_page) }}" class="pagination-link">
+                        <i class="fas fa-angle-left"></i>
+                    </a>
+                {% endif %}
+                <span>Страница {{ page }} / {{ total_pages }}</span>
+                {% if page < total_pages %}
+                    {% set next_page = page + 1 %}
+                    <a href="{{ url_for('control.hours.hours_table', page=next_page) }}" class="pagination-link">
+                        <i class="fas fa-angle-right"></i>
+                    </a>
+                {% endif %}
+                {% if page == total_pages %}
+                    <span class="pagination-link" style="visibility: hidden;"><i class="fas fa-angle-right"></i></span>
+                {% endif %}
+            </div>
+        </div> #}
+    </div>
+{% endblock content %}

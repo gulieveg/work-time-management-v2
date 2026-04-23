@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block title %}Редактирование задания{% endblock %}
+
+{% block content %}
+    <div class="form-container">
+        <p class="paragraph">Редактирование задания</p>
+        <form method="POST">
+            <div class="form-group">
+                <i class="fas fa-user" style="left: 14px;"></i>
+                <input
+                    type="text"
+                    name="employee_data"
+                    class="employee-search"
+                    placeholder="ФИО работника"
+                    value="{{ '{} ({})'.format(employee_name, personnel_number) if employee_name and personnel_number else '' }}"
+                    required
+                />
+                <div class="employee-search-suggestions suggestions-list"></div>
+            </div>
+
+            <div class="form-group">
+                <i class="fas fa-calendar-alt" style="left: 14px;"></i>
+                <input
+                    type="date"
+                    name="operation_date"
+                    value="{{ operation_date }}"
+                    required
+                />
+            </div>
+
+            <div class="task-block">
+                <div class="form-group">
+                    <i class="fas fa-clock" style="left: 14px;"></i>
+                    <input
+                        type="number"
+                        name="hours"
+                        min="0"
+                        max="12.25"
+                        step="0.01"
+                        placeholder="Часы работы"
+                        value="{{ hours }}"
+                        required
+                    />
+                </div>
+
+                <div class="form-group">
+                    <i class="fas fa-cogs" style="left: 14px;"></i>
+                    <input
+                        type="text"
+                        name="order_name"
+                        class="order-name"
+                        placeholder="Наименование заказа"
+                        value="{{ order_name }}"
+                        required
+                    />
+                    <div class="order-name-suggestions suggestions-list"></div>
+                </div>
+
+                <div class="form-group">
+                    <i class="fas fa-hashtag" style="left: 14px;"></i>
+                    <input
+                        type="text"
+                        name="order_number"
+                        class="order-number"
+                        placeholder="Номер заказа"
+                        value="{{ order_number }}"
+                        required
+                    />
+                    <div class="order-number-suggestions suggestions-list"></div>
+                </div>
+
+                <div class="form-group">
+                    <i class="fas fa-tools" style="left: 14px;"></i>
+                    <input
+                        type="text"
+                        name="work_name"
+                        class="work-name"
+                        placeholder="Наименование работы"
+                        value="{{ work_name }}"
+                        required
+                    />
+                </div>
+            </div>
+
+            {% set params = {
+                "department": request.args.get("department"),
+                "start_date": request.args.get("start_date"),
+                "end_date": request.args.get("end_date"),
+                "employee_data": request.args.get("employee_data"),
+                "order_number": request.args.get("order_number"),
+                "work_name": request.args.get("work_name"),
+                "order_name": request.args.get("order_name"),
+            } %}
+
+            <div class="task-actions">
+                <button type="submit" class="default-button btn-task-save">Сохранить изменения</button>
+                <a href="{{ url_for('tasks.tasks_table', **params) }}" class="default-button btn-cancel">Отмена</a>
+            </div>
+        </form>
+    </div>
+
+    {% include "partials/flash_messages.html" %}
+{% endblock %}

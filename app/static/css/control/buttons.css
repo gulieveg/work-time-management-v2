@@ -1,0 +1,208 @@
+.icon-button {
+    height: 32px;
+    width: 32px;
+    border-radius: var(--radius-md);
+}
+
+.btn-edit {
+    background-color: var(--color-emerald-500);
+}
+
+.btn-edit:hover {
+    background-color: var(--color-emerald-600);
+}
+
+.btn-edit:active {
+    background-color: var(--color-emerald-700);
+}
+
+.btn-delete {
+    background-color: var(--color-red-600);
+}
+
+.btn-delete:hover {
+    background-color: var(--color-red-700);
+}
+
+.btn-delete:active {
+    background-color: var(--color-red-700);
+}
+
+.btn-password-reset,
+.btn-works-view,
+.btn-work-add,
+.btn-log-details {
+    background-color: var(--color-brand-600);
+}
+
+.btn-password-reset:hover,
+.btn-works-view:hover,
+.btn-work-add:hover,
+.btn-log-details:hover {
+    background-color: var(--color-brand-700);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-button-hover);
+}
+
+.btn-password-reset:active,
+.btn-works-view:active,
+.btn-work-add:active,
+.btn-log-details:active {
+    background-color: var(--color-brand-700);
+    transform: translateY(0);
+}
+
+.actions-container {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.btn-back {
+    background: transparent;
+    border: 1px solid var(--border-sidebar);
+    padding: var(--space-3) var(--space-4);
+    color: var(--text-sidebar);
+    cursor: pointer;
+    border-radius: var(--radius-md);
+    width: 100%;
+    transition: all var(--transition-base);
+    font-weight: var(--font-medium);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+}
+
+.btn-back:hover {
+    background: var(--bg-sidebar-hover);
+    color: var(--text-sidebar-hover);
+    border-color: var(--color-surface-600);
+}
+
+.btn-back i {
+    margin-right: var(--space-2);
+    text-align: center;
+    transition: transform var(--transition-base);
+}
+
+.btn-back:hover i {
+    transform: translateX(-3px);
+}
+
+.default-button {
+    background-color: var(--color-emerald-500);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-white);
+    border: none;
+    border-radius: var(--radius-md);
+    padding: 0 var(--space-5);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    gap: var(--space-2);
+    font-weight: var(--font-medium);
+    font-size: var(--text-sm);
+    height: 38px;
+}
+
+.default-button:hover {
+    background-color: var(--color-emerald-600);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-button-hover);
+}
+
+.default-button:active {
+    transform: translateY(0);
+}
+
+.file-input-group {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.file-input-group input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    width: 0;
+    height: 0;
+}
+
+.file-hint {
+    line-height: 2;
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+}
+
+.btn-file-choose {
+    background-color: var(--color-brand-600);
+    color: var(--color-white);
+    border: none;
+    border-radius: var(--radius-md);
+    padding: 0 var(--space-5);
+    cursor: pointer;
+    font-weight: var(--font-medium) !important;
+    margin: 0 !important;
+    transition: all var(--transition-base);
+    text-align: center;
+    width: 295px;
+    height: 38px;
+    font-size: var(--text-sm);
+}
+
+.btn-file-choose:hover {
+    background-color: var(--color-brand-700);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-button-hover);
+}
+
+.btn-row-delete,
+.btn-row-add,
+.btn-file-remove {
+    background: none;
+    border: none;
+    cursor: pointer;
+    transform: scale(2);
+    transition: all var(--transition-fast);
+    padding: 0 var(--space-2);
+}
+
+.btn-file-remove {
+    display: none;
+}
+
+.btn-row-delete,
+.btn-file-remove {
+    color: var(--color-red-600);
+}
+
+.btn-row-delete:hover,
+.btn-file-remove:hover {
+    color: var(--color-red-700);
+}
+
+.btn-row-delete:active,
+.btn-file-remove:active {
+    color: var(--color-red-700);
+    transform: scale(1.5);
+}
+
+.btn-row-add {
+    color: var(--color-emerald-500);
+}
+
+.btn-row-add:hover {
+    color: var(--color-emerald-600);
+}
+
+.btn-row-add:active {
+    color: var(--color-emerald-700);
+    transform: scale(1.5);
+}

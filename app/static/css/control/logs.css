@@ -1,0 +1,64 @@
+.log-tag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-full);
+    border: 1px solid;
+    text-align: center;
+    font-size: var(--text-xs);
+    font-weight: var(--font-medium);
+    background-color: transparent;
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    height: 24px;
+    min-width: 80px;
+}
+
+.delete {
+    color: var(--color-red-600);
+    border-color: var(--color-red-200);
+    background-color: var(--color-red-50);
+}
+
+.create {
+    color: var(--color-emerald-600);
+    border-color: var(--color-emerald-200);
+    background-color: var(--color-emerald-50);
+}
+
+.update {
+    color: var(--color-brand-600);
+    border-color: var(--color-brand-200);
+    background-color: var(--color-brand-50);
+}
+
+.task {
+    color: #7c5c4c;
+    border-color: #e8d5c4;
+    background-color: #fdf6f0;
+}
+
+.user {
+    color: var(--color-violet-600);
+    border-color: var(--color-violet-200);
+    background-color: var(--color-violet-50);
+}
+
+.employee {
+    color: var(--color-orange-600);
+    border-color: var(--color-orange-200);
+    background-color: var(--color-orange-50);
+}
+
+.work {
+    color: var(--color-cyan-600);
+    border-color: var(--color-cyan-200);
+    background-color: var(--color-cyan-50);
+}
+
+.order {
+    color: var(--text-secondary);
+    border-color: var(--color-surface-200);
+    background-color: var(--bg-surface-hover);
+}

@@ -1,0 +1,10 @@
+{% macro form_buttons(save_label, cancel_url, save_icon='fa-save') %}
+<div class="form-buttons">
+    <button type="submit" class="default-button">
+        <i class="fas {{ save_icon }}"></i>{{ save_label }}
+    </button>
+    <a href="{{ cancel_url }}" class="default-button">
+        <i class="fas fa-undo"></i>Отменить
+    </a>
+</div>
+{% endmacro %}

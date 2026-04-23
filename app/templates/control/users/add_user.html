@@ -1,0 +1,89 @@
+{% extends "control/base.html" %}
+{% from "macros/crud_tabs.html" import crud_tabs %}
+{% from "macros/form_field.html" import form_field %}
+{% from "macros/form_buttons.html" import form_buttons %}
+{% from "macros/toggle_switch.html" import toggle_switch %}
+{% from "macros/password_input.html" import password_input %}
+
+{% block title %}Добавление пользователя{% endblock title %}
+
+{% block content %}
+    <div class="panel">
+        {{ crud_tabs('control.users.users_table', 'control.users.add_user', list_label='Список пользователей', add_label='Добавить пользователя', active_tab='add') }}
+
+        <form method="POST">
+            {{ form_field('ФИО пользователя', 'user_name', request.form.get('user_name', ''), 'text', 'fa-user', 'ФИО пользователя', 'user-name', true) }}
+
+            {{ form_field('Подразделение', 'user_department', request.form.get('user_department', ''), 'text', 'fa-briefcase', 'Подразделение пользователя', 'user-department', true) }}
+
+            <div class="form-group">
+                <label>Логин пользователя</label>
+                <div>
+                    <i class="fas fa-at"></i>
+                    <input
+                        type="text"
+                        name="user_login"
+                        value="{{ request.form.get('user_login', '') }}"
+                        class="user-login {% if user_login_error %}input-invalid{% endif %}"
+                        placeholder="Логин пользователя"
+                        autocomplete="off"
+                        required
+                    />
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <label class="dropdown-title">Уровень доступа</label>
+                <input type="checkbox" id="toggle-dropdown">
+
+                {% set selected_permissions_level = request.form.get("user_permissions_level") %}
+                {% set is_selected = selected_permissions_level is not none and selected_permissions_level != "" %}
+
+                {% set permissions_levels = {
+                    "minimal": "Минимальный",
+                    "standard": "Стандартный",
+                    "advanced": "Расширенный",
+                } %}
+
+                <label for="toggle-dropdown" class="dropdown-label">
+                    <div>
+                        <i class="fas fa-star"></i>
+                        <span class="{{ 'selected' if is_selected }}">{{ permissions_levels.get(selected_permissions_level, "Уровень доступа пользователя") }}</span>
+                    </div>
+                    <i class="fas fa-chevron-down dropdown-icon"></i>
+                </label>
+
+                <div class="dropdown-content">
+                    {% for key, name in permissions_levels.items() %}
+                        <label data-value="{{ key }}">{{ name }}</label>
+                    {% endfor %}
+                </div>
+
+                <input type="hidden" name="user_permissions_level" value="{{ selected_permissions_level or 'standard' }}">
+            </div>
+
+            <div class="form-group">
+                <label>Установить пароль</label>
+                {{ toggle_switch('password-toggle-switch', id='password-toggle-switch') }}
+            </div>
+
+            <div id="password-input-group" style="display: none;">
+                {{ password_input('user_password', request.form.get('user_password', ''), 'password-input-group', False, 'Пароль') }}
+            </div>
+
+            <div class="form-group">
+                <label>Производственный сотрудник</label>
+                {{ toggle_switch('is_user_factory_worker') }}
+            </div>
+
+            <div class="form-group">
+                <label>Активен</label>
+                {{ toggle_switch('is_user_account_enabled') }}
+            </div>
+
+            {{ form_buttons('Сохранить пользователя', url_for('control.users.users_table')) }}
+        </form>
+
+        {% include "partials/flash_messages.html" %}
+    </div>
+{% endblock content %}

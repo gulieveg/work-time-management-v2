@@ -1,0 +1,22 @@
+{% extends "control/base.html" %}
+{% from "macros/crud_tabs.html" import crud_tabs %}
+{% from "macros/form_field.html" import form_field %}
+{% from "macros/form_buttons.html" import form_buttons %}
+
+{% block title %}Редактирование работы{% endblock title %}
+
+{% block content %}
+    <div class="panel">
+        {{ crud_tabs('control.works.works_table', 'control.works.add_work', 'control.works.edit_work', list_label='Список работ', add_label='Добавить работу', edit_label='Редактирование работы', active_tab='edit') }}
+
+        <form method="POST">
+            {{ form_field('Наименование работы', 'work_name', work_name, 'text', 'fa-briefcase', 'Наименование работы', 'work-name', true) }}
+
+            {{ form_field('Плановая трудоемкость', 'planned_hours', planned_hours, 'text', 'fa-clock', 'Плановая трудоемкость', 'planned-hours', true) }}
+
+            {{ form_buttons('Сохранить изменения', url_for('control.works.works_table')) }}
+        </form>
+
+        {% include "partials/flash_messages.html" %}
+    </div>
+{% endblock content %}

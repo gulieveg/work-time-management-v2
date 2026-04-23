@@ -1,0 +1,7 @@
+flask
+flask-login
+pyodbc
+python-decouple
+openpyxl
+pandas
+werkzeug

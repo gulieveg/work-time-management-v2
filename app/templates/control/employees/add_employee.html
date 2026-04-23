@@ -1,0 +1,54 @@
+{% extends "control/base.html" %}
+{% from "macros/crud_tabs.html" import crud_tabs %}
+{% from "macros/form_field.html" import form_field %}
+{% from "macros/form_buttons.html" import form_buttons %}
+
+{% block title %}Добавление работника{% endblock title %}
+
+{% block content %}
+    <div class="panel">
+        {{ crud_tabs('control.employees.employees_table', 'control.employees.add_employee', list_label='Список работников', add_label='Добавить работника', active_tab='add') }}
+
+        <form method="POST">
+            {{ form_field('ФИО работника', 'employee_name', request.form.get('employee_name', ''), 'text', 'fa-user', 'ФИО работника', 'employee-name', true) }}
+
+            {{ form_field('Таб. номер работника', 'personnel_number', request.form.get('personnel_number', ''), 'text', 'fa-hashtag', 'Таб. номер работника', 'personnel-number', true) }}
+
+            {{ form_field('Подразделение работника', 'employee_department', request.form.get('employee_department', ''), 'text', 'fa-briefcase', 'Подразделение работника', 'employee-department', true) }}
+
+            <div class="dropdown">
+                <label class="dropdown-title">Категория работника</label>
+                <input type="checkbox" id="toggle-dropdown">
+
+                {% set selected_category = request.form.get("employee_category") %}
+                {% set is_selected = selected_category is not none and selected_category != "" %}
+
+                {% set categories = {
+                    "worker": "Рабочий",
+                    "specialist": "Специалист",
+                    "manager": "Руководитель",
+                } %}
+
+                <label for="toggle-dropdown" class="dropdown-label">
+                    <div>
+                        <i class="fas fa-tag"></i>
+                        <span class="{{ 'selected' if is_selected }}">{{ categories.get(selected_category, "Категория работника") }}</span>
+                    </div>
+                    <i class="fas fa-chevron-down dropdown-icon"></i>
+                </label>
+
+                <div class="dropdown-content" id="dropdown-category">
+                    {% for key, name in categories.items() %}
+                        <label data-value="{{ key }}">{{ name }}</label>
+                    {% endfor %}
+                </div>
+
+                <input type="hidden" name="employee_category" value="{{ selected_category or 'worker'}}">
+            </div>
+
+            {{ form_buttons('Сохранить работника', url_for('control.employees.employees_table')) }}
+        </form>
+
+        {% include "partials/flash_messages.html" %}
+    </div>
+{% endblock content %}

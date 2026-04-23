@@ -1,0 +1,36 @@
+{% extends "control/base.html" %}
+{% from "macros/crud_tabs.html" import crud_tabs %}
+{% from "macros/form_field.html" import form_field %}
+{% from "macros/form_buttons.html" import form_buttons %}
+
+{% block title %}Редактирование заказа{% endblock title %}
+
+{% block content %}
+    <div class="panel">
+        {{ crud_tabs('control.orders.orders_table', 'control.orders.add_order', 'control.orders.edit_order', list_label='Список заказов', add_label='Добавить заказ', edit_label='Редактирование заказа', active_tab='edit') }}
+
+        <form method="POST">
+            <div class="form-group">
+                <label>Номер заказа</label>
+                <div>
+                    <i class="fas fa-hashtag"></i>
+                    <input
+                        type="text"
+                        name="order_number"
+                        value="{{ order_number }}"
+                        class="order-number {% if order_number_error %}input-invalid{% endif %}"
+                        placeholder="Номер заказа"
+                        autocomplete="off"
+                        required
+                    />
+                </div>
+            </div>
+
+            {{ form_field('Наименование заказа', 'order_name', order_name, 'text', 'fa-cogs', 'Наименование заказа', 'order-name', true) }}
+
+            {{ form_buttons('Сохранить изменения', url_for('control.orders.orders_table')) }}
+        </form>
+
+        {% include "partials/flash_messages.html" %}
+    </div>
+{% endblock content %}

@@ -1,0 +1,18 @@
+.setup-password-link {
+    margin-bottom: var(--space-5);
+    color: var(--color-brand-600);
+    text-decoration: none;
+    float: left;
+    font-weight: var(--font-medium);
+    font-size: var(--text-sm);
+    transition: color var(--transition-fast);
+}
+
+.setup-password-link:hover {
+    color: var(--color-brand-700);
+    text-decoration: underline;
+}
+
+.setup-password-link:visited {
+    color: var(--color-brand-600);
+}

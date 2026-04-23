@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome/font-awesome.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/control/main.css') }}">
+        <link rel="icon" href="{{ url_for('static', filename='images/control-panel.png') }}" type="image/x-icon">
+        <title>{% block title %}{% endblock title %}</title>
+    </head>
+    <body>
+        <div class="app-wrapper">
+            <div class="sidebar">
+                <a href="{{ url_for('control.index') }}" class="sidebar-heading">
+                    <div class="sidebar-heading-icon">
+                        <i class="fas fa-cog"></i>
+                    </div>
+                    <span>Панель управления</span>
+                </a>
+
+                <div class="sidebar-divider"></div>
+
+                {% set menu_items = [
+                    ["control.index", "fas fa-home", "Главная", true],
+                    ["control.orders.orders_table", "fas fa-shopping-cart", "Заказы", true],
+                    ["control.works.works_table", "fas fa-briefcase", "Работы", true],
+                    ["control.employees.employees_table", "fas fa-user-cog", "Сотрудники", true],
+                    ["control.hours.hours_table", "fas fa-clock", "Трудоемкость", true],
+                    ["control.reports.reports", "fas fa-chart-bar", "Отчеты", true],
+                    ["control.users.users_table", "fas fa-user-shield", "Пользователи", current_user.is_admin],
+                    ["control.logs.logs_table", "fas fa-history", "Журнал", current_user.is_admin],
+                ] %}
+
+                <nav class="sidebar-menu">
+                    {% for endpoint, icon_class, text, allowed in menu_items %}
+                        {% if allowed %}
+                            {% set url = url_for(endpoint) %}
+
+                            {% set active = "" %}
+                            {% if endpoint == "control.index" %}
+                                {% set active = "active" if request.path == url %}
+                            {% else %}
+                                {% set active = "active" if request.path.startswith(url) %}
+                            {% endif %}
+
+                            <a href="{{ url }}" class="sidebar-item {{ active }}">
+                                <i class="{{ icon_class }}"></i>
+                                <span>{{ text }}</span>
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+                </nav>
+
+                <div class="sidebar-footer">
+                    <a href="{{ url_for('tasks.tasks_table') }}" class="sidebar-back">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Вернуться</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="main-wrapper">
+                <div class="control-content">
+                    {% block content %}{% endblock content %}
+                </div>
+            </div>
+
+            <div class="modal-overlay" id="modal-confirm-dialog">
+                <div class="modal-dialog">
+                    <div class="modal-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <span class="modal-close"><i class="fas fa-times"></i></span>
+                    <p class="modal-message" id="modal-confirm-dialog-message"></p>
+                    <div class="modal-actions">
+                        <button id="modal-cancel" class="btn btn-secondary">Отмена</button>
+                        <button id="modal-confirm" class="btn btn-danger">Подтвердить</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="module" src="{{ url_for('static', filename='js/control/script.js') }}"></script>
+    </body>
+</html>

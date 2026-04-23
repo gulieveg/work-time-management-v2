@@ -1,0 +1,459 @@
+{% extends "base.html" %}
+
+{% block title %}Справка и документация{% endblock title %}
+
+{% block content %}
+<div class="help-page">
+    <div class="help-page-header">
+        <div class="help-page-header-content">
+            <h1 class="help-page-title">
+                <i class="fas fa-book"></i>
+                Справка и документация
+            </h1>
+            <p class="help-page-subtitle">Полное руководство по использованию системы АРМ Мастер</p>
+        </div>
+    </div>
+
+    <div class="help-toc">
+        <div class="help-toc-card">
+            <div class="help-toc-header">
+                <i class="fas fa-list-ul"></i>
+                Содержание
+            </div>
+            <nav class="help-toc-nav">
+                <a href="#overview" class="help-toc-item">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Обзор системы</span>
+                </a>
+                <a href="#user-roles" class="help-toc-item">
+                    <i class="fas fa-users-cog"></i>
+                    <span>Уровни доступа</span>
+                </a>
+                <a href="#tasks" class="help-toc-item">
+                    <i class="fas fa-tasks"></i>
+                    <span>Работа с заданиями</span>
+                </a>
+                <a href="#control-panel" class="help-toc-item">
+                    <i class="fas fa-cogs"></i>
+                    <span>Панель управления</span>
+                </a>
+                <a href="#orders" class="help-toc-item">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Управление заказами</span>
+                </a>
+                <a href="#employees" class="help-toc-item">
+                    <i class="fas fa-user-cog"></i>
+                    <span>Управление сотрудниками</span>
+                </a>
+                <a href="#works" class="help-toc-item">
+                    <i class="fas fa-briefcase"></i>
+                    <span>Управление работами</span>
+                </a>
+                <a href="#reports" class="help-toc-item">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Формирование отчетов</span>
+                </a>
+                <a href="#shortcuts" class="help-toc-item">
+                    <i class="fas fa-keyboard"></i>
+                    <span>Горячие клавиши</span>
+                </a>
+            </nav>
+        </div>
+    </div>
+
+    <div class="help-content">
+        <section id="overview" class="help-section">
+            <div class="help-section-card">
+                <div class="help-section-header">
+                    <i class="fas fa-info-circle"></i>
+                    <h2>Обзор системы</h2>
+                </div>
+                <div class="help-section-content">
+                    <p><strong>АРМ Мастер</strong> — это информационно-аналитическая система для управления заданиями, разработанная для АО НПФ Меридиан.</p>
+
+                    <div class="help-feature-grid">
+                        <div class="help-feature-item">
+                            <div class="help-feature-icon">
+                                <i class="fas fa-tasks"></i>
+                            </div>
+                            <div class="help-feature-text">
+                                <strong>Управление заданиями</strong>
+                                <p>Создание, редактирование и отслеживание заданий сотрудников</p>
+                            </div>
+                        </div>
+                        <div class="help-feature-item">
+                            <div class="help-feature-icon">
+                                <i class="fas fa-shopping-cart"></i>
+                            </div>
+                            <div class="help-feature-text">
+                                <strong>Заказы и работы</strong>
+                                <p>Учет заказов и видов работ для планирования</p>
+                            </div>
+                        </div>
+                        <div class="help-feature-item">
+                            <div class="help-feature-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="help-feature-text">
+                                <strong>Трудоемкость</strong>
+                                <p>Ввод и контроль затраченного времени</p>
+                            </div>
+                        </div>
+                        <div class="help-feature-item">
+                            <div class="help-feature-icon">
+                                <i class="fas fa-chart-bar"></i>
+                            </div>
+                            <div class="help-feature-text">
+                                <strong>Отчеты</strong>
+                                <p>Экспорт данных в удобные форматы</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="user-roles" class="help-section">
+            <div class="help-section-card">
+                <div class="help-section-header">
+                    <i class="fas fa-users-cog"></i>
+                    <h2>Уровни доступа</h2>
+                </div>
+                <div class="help-section-content">
+                    <p>В системе предусмотрены следующие уровни прав доступа:</p>
+
+                    <div class="help-role-cards">
+                        <div class="help-role-card help-role-card--admin">
+                            <div class="help-role-icon">
+                                <i class="fas fa-crown"></i>
+                            </div>
+                            <div class="help-role-info">
+                                <h3>Администратор</h3>
+                                <p>Полный доступ ко всем функциям системы: управление пользователями, журнал действий, все разделы</p>
+                            </div>
+                        </div>
+                        <div class="help-role-card help-role-card--advanced">
+                            <div class="help-role-icon">
+                                <i class="fas fa-user-shield"></i>
+                            </div>
+                            <div class="help-role-info">
+                                <h3>Расширенный доступ</h3>
+                                <p>Доступ к панели управления, создание заданий, управление заказами, сотрудниками и работами</p>
+                            </div>
+                        </div>
+                        <div class="help-role-card help-role-card--standard">
+                            <div class="help-role-icon">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="help-role-info">
+                                <h3>Стандартный доступ</h3>
+                                <p>Создание и просмотр заданий, доступ к отчетам</p>
+                            </div>
+                        </div>
+                        <div class="help-role-card help-role-card--minimal">
+                            <div class="help-role-icon">
+                                <i class="fas fa-user-minus"></i>
+                            </div>
+                            <div class="help-role-info">
+                                <h3>Ограниченный доступ</h3>
+                                <p>Только просмотр заданий без возможности создания или редактирования</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tasks" class="help-section">
+            <div class="help-section-card">
+                <div class="help-section-header">
+                    <i class="fas fa-tasks"></i>
+                    <h2>Работа с заданиями</h2>
+                </div>
+                <div class="help-section-content">
+                    <h3>Создание задания</h3>
+                    <ol class="help-steps">
+                        <li>Нажмите кнопку <strong>«Новое задание»</strong> в шапке сайта</li>
+                        <li>Заполните необходимые поля: сотрудник, вид работы, заказ, количество часов</li>
+                        <li>Нажмите кнопку <strong>«Создать задание»</strong></li>
+                        <li>После успешного создания появится уведомление, и вы будете перенаправлены на страницу заданий</li>
+                    </ol>
+
+                    <h3>Фильтрация заданий</h3>
+                    <p>На странице заданий доступны следующие фильтры:</p>
+                    <ul>
+                        <li><strong>Подразделение</strong> — выбор одного или нескольких подразделений</li>
+                        <li><strong>Дата</strong> — диапазон дат для выборки</li>
+                        <li><strong>ФИО сотрудника</strong> — поиск по имени</li>
+                        <li><strong>Номер заказа</strong> — поиск по номеру</li>
+                        <li><strong>Наименование работы</strong> — поиск по названию</li>
+                        <li><strong>Наименование заказа</strong> — поиск по названию</li>
+                    </ul>
+
+                    <h3>Действия с заданиями</h3>
+                    <div class="help-action-cards">
+                        <div class="help-action-item">
+                            <div class="help-action-icon help-action-icon--edit">
+                                <i class="fas fa-edit"></i>
+                            </div>
+                            <div class="help-action-desc">
+                                <strong>Редактирование</strong>
+                                <p>Нажмите на иконку карандаша в строке задания</p>
+                            </div>
+                        </div>
+                        <div class="help-action-item">
+                            <div class="help-action-icon help-action-icon--delete">
+                                <i class="fas fa-trash"></i>
+                            </div>
+                            <div class="help-action-desc">
+                                <strong>Удаление</strong>
+                                <p>Нажмите на иконку корзины, подтвердите действие в модальном окне</p>
+                            </div>
+                        </div>
+                        <div class="help-action-item">
+                            <div class="help-action-icon help-action-icon--export">
+                                <i class="fas fa-file-export"></i>
+                            </div>
+                            <div class="help-action-desc">
+                                <strong>Экспорт</strong>
+                                <p>Нажмите кнопку «Выгрузить отчет» для сохранения данных</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>Подсчет часов</h3>
+                    <p>Кликните на ячейку с часами, чтобы выделить задание. Внизу страницы отобразится сумма выбранных часов. Кнопка сброса позволяет очистить выборку.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="control-panel" class="help-section">
+            <div class="help-section-card">
+                <div class="help-section-header">
+                    <i class="fas fa-cogs"></i>
+                    <h2>Панель управления</h2>
+                </div>
+                <div class="help-section-content">
+                    <p>Панель управления доступна пользователям с уровнем доступа <strong>«Расширенный»</strong> или <strong>«Администратор»</strong>.</p>
+
+                    <h3>Разделы панели</h3>
+                    <div class="help-panel-sections">
+                        <div class="help-panel-item">
+                            <i class="fas fa-home"></i>
+                            <div>
+                                <strong>Главная</strong>
+                                <span>Обзор системы и быстрые действия</span>
+                            </div>
+                        </div>
+                        <div class="help-panel-item">
+                            <i class="fas fa-shopping-cart"></i>
+                            <div>
+                                <strong>Заказы</strong>
+                                <span>Управление заказами клиентов</span>
+                            </div>
+                        </div>
+                        <div class="help-panel-item">
+                            <i class="fas fa-briefcase"></i>
+                            <div>
+                                <strong>Работы</strong>
+                                <span>Справочник видов работ</span>
+                            </div>
+                        </div>
+                        <div class="help-panel-item">
+                            <i class="fas fa-user-cog"></i>
+                            <div>
+                                <strong>Сотрудники</strong>
+                                <span>Учет сотрудников организации</span>
+                            </div>
+                        </div>
+                        <div class="help-panel-item">
+                            <i class="fas fa-clock"></i>
+                            <div>
+                                <strong>Трудоемкость</strong>
+                                <span>Ввод трудозатрат по сотрудникам</span>
+                            </div>
+                        </div>
+                        <div class="help-panel-item">
+                            <i class="fas fa-chart-bar"></i>
+                            <div>
+                                <strong>Отчеты</strong>
+                                <span>Формирование и экспорт отчетов</span>
+                            </div>
+                        </div>
+                        <div class="help-panel-item">
+                            <i class="fas fa-user-shield"></i>
+                            <div>
+                                <strong>Пользователи</strong>
+                                <span>Управление учетными записями</span>
+                            </div>
+                        </div>
+                        <div class="help-panel-item">
+                            <i class="fas fa-history"></i>
+                            <div>
+                                <strong>Журнал</strong>
+                                <span>История действий пользователей</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="orders" class="help-section">
+            <div class="help-section-card">
+                <div class="help-section-header">
+                    <i class="fas fa-shopping-cart"></i>
+                    <h2>Управление заказами</h2>
+                </div>
+                <div class="help-section-content">
+                    <h3>Создание заказа</h3>
+                    <ol class="help-steps">
+                        <li>Перейдите в раздел <strong>«Заказы»</strong> панели управления</li>
+                        <li>Нажмите кнопку <strong>«Добавить заказ»</strong></li>
+                        <li>Заполните поля: номер заказа, название, описание (необязательно)</li>
+                        <li>Сохраните заказ</li>
+                    </ol>
+
+                    <h3>Редактирование и удаление</h3>
+                    <p>Для редактирования или удаления заказа используйте соответствующие иконки в таблице. При удалении потребуется подтверждение.</p>
+
+                    <div class="help-note">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <p>При удалении заказа связанные задания не удаляются, но становятся несвязанными.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="employees" class="help-section">
+            <div class="help-section-card">
+                <div class="help-section-header">
+                    <i class="fas fa-user-cog"></i>
+                    <h2>Управление сотрудниками</h2>
+                </div>
+                <div class="help-section-content">
+                    <h3>Добавление сотрудника</h3>
+                    <ol class="help-steps">
+                        <li>Перейдите в раздел <strong>«Сотрудники»</strong></li>
+                        <li>Нажмите <strong>«Добавить сотрудника»</strong></li>
+                        <li>Заполните данные: ФИО, табельный номер, подразделение, роль (рабочий/специалист/руководитель)</li>
+                        <li>Сохраните сотрудника</li>
+                    </ol>
+
+                    <h3>Роли сотрудников</h3>
+                    <ul>
+                        <li><strong>Рабочий</strong> — выполнение производственных задач</li>
+                        <li><strong>Специалист</strong> — выполнение специализированных работ</li>
+                        <li><strong>Руководитель</strong> — управление и координация</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="works" class="help-section">
+            <div class="help-section-card">
+                <div class="help-section-header">
+                    <i class="fas fa-briefcase"></i>
+                    <h2>Управление работами</h2>
+                </div>
+                <div class="help-section-content">
+                    <p>В справочнике работ хранятся все доступные виды работ, которые можно назначать сотрудникам.</p>
+
+                    <h3>Добавление работы</h3>
+                    <ol class="help-steps">
+                        <li>Перейдите в раздел <strong>«Работы»</strong></li>
+                        <li>Нажмите <strong>«Добавить работу»</strong></li>
+                        <li>Укажите наименование работы</li>
+                        <li>Сохраните</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <section id="reports" class="help-section">
+            <div class="help-section-card">
+                <div class="help-section-header">
+                    <i class="fas fa-chart-bar"></i>
+                    <h2>Формирование отчетов</h2>
+                </div>
+                <div class="help-section-content">
+                    <p>Система позволяет экспортировать данные в формате Excel для дальнейшей обработки.</p>
+
+                    <h3>Способ формирования</h3>
+                    <ol class="help-steps">
+                        <li>На странице заданий или в разделе <strong>«Отчеты»</strong> нажмите <strong>«Выгрузить отчет»</strong></li>
+                        <li>Примените необходимые фильтры (по дате, сотруднику, заказу)</li>
+                        <li>Нажмите кнопку экспорта</li>
+                        <li>Файл будет загружен на ваш компьютер</li>
+                    </ol>
+
+                    <h3>Формат файла</h3>
+                    <p>Отчет формируется в формате <strong>.xlsx</strong> (Microsoft Excel) с табличным представлением данных и заголовками столбцов.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="shortcuts" class="help-section">
+            <div class="help-section-card">
+                <div class="help-section-header">
+                    <i class="fas fa-keyboard"></i>
+                    <h2>Горячие клавиши</h2>
+                </div>
+                <div class="help-section-content">
+                    <div class="help-shortcuts-grid">
+                        <div class="help-shortcut-item">
+                            <div class="help-shortcut-keys">
+                                <kbd>Esc</kbd>
+                            </div>
+                            <div class="help-shortcut-desc">
+                                <strong>Закрыть подсказки</strong>
+                                <span>Закрывает всплывающие подсказки и списки автозаполнения</span>
+                            </div>
+                        </div>
+                        <div class="help-shortcut-item">
+                            <div class="help-shortcut-keys">
+                                <kbd>Ctrl</kbd> + <kbd>F</kbd>
+                            </div>
+                            <div class="help-shortcut-desc">
+                                <strong>Поиск</strong>
+                                <span>Переводит фокус на поле поиска</span>
+                            </div>
+                        </div>
+                        <div class="help-shortcut-item">
+                            <div class="help-shortcut-keys">
+                                <kbd>Enter</kbd>
+                            </div>
+                            <div class="help-shortcut-desc">
+                                <strong>Подтверждение</strong>
+                                <span>Подтверждает действие в модальных окнах</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="help-section">
+            <div class="help-section-card help-section-card--contact">
+                <div class="help-section-header">
+                    <i class="fas fa-headset"></i>
+                    <h2>Нужна помощь?</h2>
+                </div>
+                <div class="help-section-content">
+                    <p>Если у вас возникли вопросы или проблемы при работе с системой, обратитесь к администратору или ознакомьтесь с разделом «Панель управления» для получения дополнительной информации.</p>
+                    <div class="help-contact-actions">
+                        <a href="{{ url_for('control.index') }}" class="help-btn help-btn--primary">
+                            <i class="fas fa-cogs"></i>
+                            Перейти в панель управления
+                        </a>
+                        <a href="{{ url_for('tasks.tasks_table') }}" class="help-btn help-btn--secondary">
+                            <i class="fas fa-tasks"></i>
+                            К заданиям
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock content %}

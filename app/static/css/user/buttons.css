@@ -1,0 +1,165 @@
+.default-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    cursor: pointer;
+    outline: none;
+    text-decoration: none;
+    transition: all var(--transition-base);
+    padding: 0 var(--space-5);
+    border-width: 1px;
+    border-style: solid;
+    background-color: var(--color-brand-600);
+    color: var(--color-white);
+    border-color: var(--color-brand-600);
+    border-radius: var(--radius-md);
+    font-weight: var(--font-medium);
+    font-size: var(--text-sm);
+    height: 38px;
+    position: relative;
+    letter-spacing: 0;
+}
+
+.default-button:hover {
+    background-color: var(--color-brand-700);
+    border-color: var(--color-brand-700);
+    box-shadow: var(--shadow-button-hover);
+    transform: translateY(-1px);
+}
+
+.default-button:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-xs);
+}
+
+.btn-edit {
+    background-color: var(--color-emerald-500);
+    border-color: var(--color-emerald-500);
+}
+
+.btn-edit:hover {
+    background-color: var(--color-emerald-600);
+    border-color: var(--color-emerald-600);
+}
+
+.btn-edit:active {
+    background-color: var(--color-emerald-700);
+    border-color: var(--color-emerald-700);
+}
+
+.btn-delete {
+    background-color: var(--color-red-600);
+    border-color: var(--color-red-600);
+}
+
+.btn-delete:hover {
+    background-color: var(--color-red-700);
+    border-color: var(--color-red-700);
+}
+
+.btn-delete:active {
+    background-color: var(--color-red-700);
+    border-color: var(--color-red-700);
+}
+
+.btn-login,
+.btn-register,
+.btn-register-cancel,
+.btn-home,
+.btn-block-add,
+.btn-works-add,
+.btn-block-delete,
+.btn-tasks-save,
+.btn-task-save,
+.btn-cancel {
+    border-radius: var(--radius-md);
+}
+
+.btn-login,
+.btn-home {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.btn-register {
+    flex: 3;
+}
+
+.btn-works-add,
+.btn-block-delete,
+.btn-register-cancel,
+.btn-block-add,
+.btn-tasks-save,
+.btn-cancel {
+    flex: 1;
+}
+
+.btn-task-save {
+    flex: 2;
+}
+
+.btn-works-add {
+    background-color: var(--color-emerald-500);
+    color: var(--color-white);
+    border-color: var(--color-emerald-500);
+}
+
+.btn-works-add:hover {
+    background-color: var(--color-emerald-600);
+    border-color: var(--color-emerald-600);
+}
+
+.btn-block-delete {
+    background-color: var(--color-red-600);
+    color: var(--color-white);
+    border-color: var(--color-red-600);
+}
+
+.btn-block-delete:hover {
+    background-color: var(--color-red-700);
+    border-color: var(--color-red-700);
+}
+
+.btn-filters-reset,
+.btn-filters-apply,
+.btn-report-export {
+    width: 280px;
+    background-color: var(--color-emerald-500);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-white);
+    border: none;
+    border-radius: var(--radius-md);
+    padding: 0 var(--space-5);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    gap: var(--space-2);
+    font-weight: var(--font-medium);
+    font-size: var(--text-sm);
+    height: 38px;
+}
+
+.btn-filters-reset:hover,
+.btn-filters-apply:hover,
+.btn-report-export:hover {
+    background-color: var(--color-emerald-600);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-button-hover);
+}
+
+.btn-hours-reset {
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    display: flex;
+    padding: 0;
+    opacity: 0.6;
+    transition: opacity var(--transition-fast);
+}
+
+.btn-hours-reset:hover {
+    opacity: 1;
+}

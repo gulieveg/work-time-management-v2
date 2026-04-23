@@ -1,0 +1,17 @@
+{% macro filter_input(label_text, name, value='', icon='fa-user', input_class='', placeholder='') %}
+<div class="filter-item">
+    <label for="{{ name }}">{{ label_text }}</label>
+    <div>
+        <i class="fas {{ icon }}"></i>
+        <input
+            type="text"
+            name="{{ name }}"
+            value="{{ value }}"
+            class="{{ input_class }}"
+            placeholder="{{ placeholder }}"
+            autocomplete="off"
+        />
+        {% if input_class %}<div class="{{ input_class }}-suggestions suggestions-list"></div>{% endif %}
+    </div>
+</div>
+{% endmacro %}

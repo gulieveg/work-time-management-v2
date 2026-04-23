@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+
+{% block title %}Главная{% endblock title %}
+
+{% block content %}
+<div class="dashboard">
+    <div class="dashboard-section">
+        <h2 class="section-title">
+            <i class="fas fa-building"></i>
+            Статистика по отделам
+        </h2>
+        <div class="stats-cards">
+            {% for department in departments %}
+                {% set day_tasks = stats_day.get(department, {}).get('task_count', 0) %}
+                {% set day_hours = stats_day.get(department, {}).get('total_hours', 0) %}
+                {% set week_tasks = stats_week.get(department, {}).get('task_count', 0) %}
+                {% set week_hours = stats_week.get(department, {}).get('total_hours', 0) %}
+                {% set month_tasks = stats_month.get(department, {}).get('task_count', 0) %}
+                {% set month_hours = stats_month.get(department, {}).get('total_hours', 0) %}
+                <div class="stats-card">
+                    <div class="stats-card-header">
+                        <i class="fas fa-building"></i>
+                        <span class="stats-card-title">{{ department }}</span>
+                    </div>
+                    <div class="stats-card-body">
+                        <div class="stats-card-period">
+                            <span class="stats-period-label">За день</span>
+                            <div class="stats-period-values">
+                                <div class="stats-item">
+                                    <span class="stats-item-value">{{ day_tasks }}</span>
+                                    <span class="stats-item-label">заданий</span>
+                                </div>
+                                <div class="stats-item">
+                                    <span class="stats-item-value">{{ "%.1f"|format(day_hours) }}</span>
+                                    <span class="stats-item-label">часов</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="stats-card-period">
+                            <span class="stats-period-label">За неделю</span>
+                            <div class="stats-period-values">
+                                <div class="stats-item">
+                                    <span class="stats-item-value">{{ week_tasks }}</span>
+                                    <span class="stats-item-label">заданий</span>
+                                </div>
+                                <div class="stats-item">
+                                    <span class="stats-item-value">{{ "%.1f"|format(week_hours) }}</span>
+                                    <span class="stats-item-label">часов</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="stats-card-period">
+                            <span class="stats-period-label">За месяц</span>
+                            <div class="stats-period-values">
+                                <div class="stats-item">
+                                    <span class="stats-item-value">{{ month_tasks }}</span>
+                                    <span class="stats-item-label">заданий</span>
+                                </div>
+                                <div class="stats-item">
+                                    <span class="stats-item-value">{{ "%.1f"|format(month_hours) }}</span>
+                                    <span class="stats-item-label">часов</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="stats-empty">Нет данных за период</div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="dashboard-section">
+        <h2 class="section-title">
+            <i class="fas fa-bolt"></i>
+            Быстрые действия
+        </h2>
+        <div class="quick-actions">
+            <a href="{{ url_for('tasks.add_task') }}" class="quick-action-btn quick-action-btn--primary">
+                <i class="fas fa-plus"></i>
+                <span>Добавить задание</span>
+            </a>
+            <a href="{{ url_for('tasks.tasks_table') }}" class="quick-action-btn">
+                <i class="fas fa-list"></i>
+                <span>Все задания</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="dashboard-section">
+        <h2 class="section-title">
+            <i class="fas fa-info-circle"></i>
+            Ресурсы
+        </h2>
+        <div class="resource-cards">
+            <a href="{{ url_for('help.index') }}" class="resource-card">
+                <div class="resource-icon">
+                    <i class="fas fa-book"></i>
+                </div>
+                <div class="resource-content">
+                    <span class="resource-title">Документация</span>
+                    <span class="resource-desc">Руководство по использованию системы</span>
+                </div>
+                <i class="fas fa-chevron-right resource-arrow"></i>
+            </a>
+            <a href="{{ url_for('help.index') }}#faq" class="resource-card">
+                <div class="resource-icon">
+                    <i class="fas fa-question-circle"></i>
+                </div>
+                <div class="resource-content">
+                    <span class="resource-title">Частые вопросы</span>
+                    <span class="resource-desc">Ответы на популярные вопросы</span>
+                </div>
+                <i class="fas fa-chevron-right resource-arrow"></i>
+            </a>
+            {% if current_user.permissions_level == "advanced" %}
+            <a href="{{ url_for('control.index') }}" class="resource-card resource-card--admin">
+                <div class="resource-icon">
+                    <i class="fas fa-cog"></i>
+                </div>
+                <div class="resource-content">
+                    <span class="resource-title">Панель управления</span>
+                    <span class="resource-desc">Управление пользователями и заказами</span>
+                </div>
+                <i class="fas fa-chevron-right resource-arrow"></i>
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock content %}

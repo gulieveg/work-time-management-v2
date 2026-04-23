@@ -1,0 +1,191 @@
+.toast-container {
+    position: fixed;
+    bottom: var(--space-8);
+    right: var(--space-6);
+    z-index: var(--z-toast);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: var(--space-3);
+    pointer-events: none;
+    max-width: 400px;
+}
+
+.toast {
+    width: 100%;
+    padding: var(--space-4) var(--space-5);
+    border-radius: var(--radius-xl);
+    text-align: left;
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    line-height: var(--leading-snug);
+    box-shadow: var(--shadow-toast);
+    opacity: 0;
+    transform: translateX(30px);
+    animation: toastSlideIn var(--transition-slow) cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    pointer-events: auto;
+    border: 1px solid transparent;
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    position: relative;
+    overflow: hidden;
+}
+
+.toast::before {
+    content: "";
+    flex-shrink: 0;
+    width: 4px;
+    height: 100%;
+    min-height: 28px;
+    border-radius: var(--radius-full);
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.toast-icon {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--text-sm);
+}
+
+.toast-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.toast-title {
+    font-weight: var(--font-semibold);
+    margin-bottom: 2px;
+    color: var(--text-primary);
+}
+
+.toast-message {
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+}
+
+.toast-close {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    border: none;
+    background: transparent;
+    color: var(--text-tertiary);
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+    font-size: var(--text-xs);
+}
+
+.toast-close:hover {
+    background: var(--bg-surface-hover);
+    color: var(--text-primary);
+}
+
+.toast.info {
+    background: linear-gradient(135deg, var(--color-emerald-50), var(--color-surface-0));
+    border-color: var(--color-emerald-100);
+}
+
+.toast.info::before {
+    background: linear-gradient(180deg, var(--color-emerald-500), var(--color-emerald-600));
+}
+
+.toast.info .toast-icon {
+    background: var(--color-emerald-100);
+    color: var(--color-emerald-600);
+}
+
+.toast.warning {
+    background: linear-gradient(135deg, var(--color-amber-50), var(--color-surface-0));
+    border-color: var(--color-amber-100);
+}
+
+.toast.warning::before {
+    background: linear-gradient(180deg, var(--color-amber-500), var(--color-amber-600));
+}
+
+.toast.warning .toast-icon {
+    background: var(--color-amber-100);
+    color: var(--color-amber-600);
+}
+
+.toast.error {
+    background: linear-gradient(135deg, var(--color-red-50), var(--color-surface-0));
+    border-color: var(--color-red-100);
+}
+
+.toast.error::before {
+    background: linear-gradient(180deg, var(--color-red-500), var(--color-red-600));
+}
+
+.toast.error .toast-icon {
+    background: var(--color-red-100);
+    color: var(--color-red-600);
+}
+
+.toast.success {
+    background: linear-gradient(135deg, var(--color-brand-50), var(--color-surface-0));
+    border-color: var(--color-brand-100);
+}
+
+.toast.success::before {
+    background: linear-gradient(180deg, var(--color-brand-500), var(--color-brand-600));
+}
+
+.toast.success .toast-icon {
+    background: var(--color-brand-100);
+    color: var(--color-brand-600);
+}
+
+.toast.hiding {
+    animation: toastSlideOut var(--transition-base) ease forwards;
+}
+
+@keyframes toastSlideIn {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes toastSlideOut {
+    to {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+}
+
+.input-invalid {
+    border-color: var(--border-error) !important;
+    background-color: var(--color-red-50) !important;
+    box-shadow: var(--shadow-focus-error) !important;
+    animation: shakeInput 0.35s ease-in-out;
+}
+
+@keyframes shakeInput {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-3px); }
+    40%, 80% { transform: translateX(3px); }
+}
+
+@keyframes fadeHighlight {
+    0% {
+        border-color: var(--color-red-500);
+        background-color: var(--color-red-50);
+    }
+    100% {
+        border-color: var(--border-input);
+        background-color: var(--bg-input);
+    }
+}

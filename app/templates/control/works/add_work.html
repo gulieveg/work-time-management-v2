@@ -1,0 +1,39 @@
+{% extends "control/base.html" %}
+{% from "macros/crud_tabs.html" import crud_tabs %}
+{% from "macros/form_field.html" import form_field %}
+{% from "macros/form_buttons.html" import form_buttons %}
+
+{% block title %}Добавление работы{% endblock title %}
+
+{% block content %}
+    <div class="panel">
+        {{ crud_tabs('control.works.works_table', 'control.works.add_work', list_label='Список работ', add_label='Добавить работу', active_tab='add') }}
+
+        <form method="POST">
+            <div class="form-group">
+                <label for="order_number">Номер заказа</label>
+                <div>
+                    <i class="fas fa-hashtag"></i>
+                    <input
+                        type="text"
+                        name="order_number"
+                        value="{{ request.form.get('order_number', '') }}"
+                        class="order-number"
+                        placeholder="Номер заказа"
+                        autocomplete="off"
+                        required
+                    />
+                    <div class="order-number-suggestions suggestions-list"></div>
+                </div>
+            </div>
+
+            {{ form_field('Наименование работы', 'work_name', request.form.get('work_name', ''), 'text', 'fa-briefcase', 'Наименование работы', 'work-name', true) }}
+
+            {{ form_field('Плановая трудоемкость', 'planned_hours', request.form.get('planned_hours', ''), 'number', 'fa-clock', 'Плановая трудоемкость', 'planned-hours', true, 'min="0" step="0.01"') }}
+
+            {{ form_buttons('Сохранить работу', url_for('control.works.works_table')) }}
+        </form>
+
+        {% include "partials/flash_messages.html" %}
+    </div>
+{% endblock content %}

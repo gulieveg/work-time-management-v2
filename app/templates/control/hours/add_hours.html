@@ -1,0 +1,70 @@
+{% extends "control/base.html" %}
+{% from "macros/crud_tabs.html" import crud_tabs %}
+{% from "macros/form_field.html" import form_field %}
+{% from "macros/form_buttons.html" import form_buttons %}
+
+{% block title %}Ввод трудоемкости{% endblock title %}
+
+{% block content %}
+    <div class="panel">
+        {{ crud_tabs('control.hours.hours_table', 'control.hours.add_hours', list_label='Список часов', add_label='Внести трудоемкость', active_tab='add') }}
+
+        <form method="POST">
+            <div class="form-group">
+                <label for="order_number">Номер заказа</label>
+                <div>
+                    <i class="fas fa-hashtag"></i>
+                    <input
+                        type="text"
+                        name="order_number"
+                        value="{{ request.form.get('order_number', '') }}"
+                        class="order-number"
+                        placeholder="Номер заказа"
+                        autocomplete="off"
+                        required
+                    />
+                    <div class="order-number-suggestions suggestions-list"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="work_name">Наименование работы</label>
+                <div>
+                    <i class="fas fa-briefcase"></i>
+                    <input
+                        type="text"
+                        name="work_name"
+                        value="{{ request.form.get('work_name', '') }}"
+                        class="work-name"
+                        placeholder="Наименование работы"
+                        autocomplete="off"
+                        required
+                    />
+                    <div class="work-name-suggestions suggestions-list"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="spent_hours">Часы</label>
+                <div>
+                    <i class="fas fa-clock"></i>
+                    <input
+                        type="number"
+                        name="spent_hours"
+                        min="0"
+                        step="0.01"
+                        value="{{ request.form.get('spent_hours', '') }}"
+                        class="spent-hours"
+                        placeholder="Часы"
+                        autocomplete="off"
+                        required
+                    />
+                </div>
+            </div>
+
+            {{ form_buttons('Сохранить', url_for('control.works.works_table')) }}
+        </form>
+
+        {% include "partials/flash_messages.html" %}
+    </div>
+{% endblock content %}

@@ -1,0 +1,77 @@
+{% extends "control/base.html" %}
+{% from "macros/crud_tabs.html" import crud_tabs %}
+{% from "macros/filter_input.html" import filter_input %}
+{% from "macros/pagination.html" import render_pagination %}
+
+{% block title %}Управление работниками{% endblock title %}
+
+{% block content %}
+    <div class="panel">
+        {{ crud_tabs('control.employees.employees_table', 'control.employees.add_employee', list_label='Список работников', add_label='Добавить работника', active_tab='list') }}
+
+        <form method="GET">
+            <div class="filter-container">
+                {{ filter_input('Фильтр по ФИО работника', 'employee_name', request.args.get('employee_name', ''), 'fa-user', 'employee-name', 'ФИО работника') }}
+                {{ filter_input('Фильтр по табельному номеру работника', 'personnel_number', request.args.get('personnel_number', ''), 'fa-hashtag', 'personnel-number', 'Таб. номер работника') }}
+            </div>
+
+            <div class="filter-actions">
+                <button type="submit" class="default-button btn-filters-reset">
+                    <i class="fas fa-eraser"></i>Сбросить фильтры
+                </button>
+                <button type="submit" class="default-button">
+                    <i class="fas fa-play"></i>Применить фильтры
+                </button>
+            </div>
+        </form>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 5%;">&numero;</th>
+                    <th style="width: 28%;">ФИО</th>
+                    <th style="width: 13%;">Таб. номер</th>
+                    <th style="width: 16%;">Подразделение</th>
+                    <th style="width: 19%;">Категория</th>
+                    <th style="width: 19%;">Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% set filtered_employees_page = filtered_employees_page | default([]) %}
+                {% for employee_id, employee_name, personnel_number, employee_department, employee_category in filtered_employees_page %}
+                    {% set page = page | default(1) %}
+                    {% set page_size = 10 %}
+                    <tr>
+                        <td>{{ loop.index + (page - 1) * page_size }}</td>
+                        <td>{{ employee_name }}</td>
+                        <td>{{ personnel_number }}</td>
+                        <td>{{ employee_department }}</td>
+                        {% set categories = {
+                            "worker": "Рабочий",
+                            "specialist": "Специалист",
+                            "manager": "Руководитель",
+                        } %}
+                        <td>{{ categories[employee_category] }}</td>
+                        <td class="actions-container">
+                            <form method="GET" action="{{ url_for('control.employees.edit_employee', employee_id=employee_id) }}">
+                                <button type="submit" class="icon-button btn-edit tooltip">
+                                    <i class="fas fa-edit"></i>
+                                    <span class="tooltiptext">Редактировать работника</span>
+                                </button>
+                            </form>
+                            <form method="POST" action="{{ url_for('control.employees.delete_employee', employee_id=employee_id) }}">
+                                <input type="hidden" name="page" value="{{ page }}">
+                                <button type="submit" class="icon-button btn-delete tooltip" data-action="delete-employee">
+                                    <i class="fas fa-trash"></i>
+                                    <span class="tooltiptext">Удалить работника</span>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {{ render_pagination(page, filtered_employees|length, endpoint='control.employees.employees_table') }}
+    </div>
+{% endblock content %}

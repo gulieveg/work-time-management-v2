@@ -1,0 +1,60 @@
+{% extends "control/base.html" %}
+
+{% block title %}Журнай действий{% endblock title %}
+
+{% block content %}
+    <div class="panel">
+        <table class="logs-table">
+            <thead>
+                <tr>
+                    <th style="width: 5%;">&numero;</th>
+                    <th style="width: 14%;">Тип сущности</th>
+                    <th style="width: 14%;">Тип операции</th>
+                    <th style="width: 24%;">ФИО пользователя</th>
+                    <th style="width: 15%;">Дата операции</th>
+                    <th style="width: 15%;">Время операции</th>
+                    <th style="width: 13%;">Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for log in logs %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        {% set entities = {
+                            "task": "Задание",
+                            "user": "Пользователь",
+                            "employee": "Работник",
+                            "work": "Работа",
+                            "order": "Заказ",
+                        } %}
+                        <td><span class="log-tag {{ log.entity_type }}">{{ entities[log.entity_type] }}</span></td>
+                        {% set actions = {
+                            "delete": "Удаление",
+                            "update": "Изменение",
+                            "create": "Создание",
+                        } %}
+                        <td><span class="log-tag {{ log.action }}">{{ actions[log.action] }}</span></td>
+                        <td>{{ log.user_name }}</td>
+                        <td>{{ log.created_date }}</td>
+                        <td>{{ log.created_time }}</td>
+                        <td class="actions-container">
+                            <form method="GET" action="">
+                                <button type="submit" class="icon-button btn-log-details tooltip">
+                                    <i class="fas fa-eye"></i>
+                                    <span class="tooltiptext">Посмотреть подробности</span>
+                                </button>
+                            </form>
+                            <form method="POST" action="">
+                                <input type="hidden" name="page" value="{{ page }}">
+                                <button type="submit" class="icon-button btn-delete tooltip" data-action="delete-work">
+                                    <i class="fas fa-trash"></i>
+                                    <span class="tooltiptext">Удалить запись</span>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock content %}

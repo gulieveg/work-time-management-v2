@@ -1,0 +1,29 @@
+.dropdown {
+    width: 100%;
+    min-width: 200px;
+    max-width: var(--width-form);
+    margin-bottom: var(--space-5);
+}
+
+.dropdown-title {
+    margin-bottom: var(--space-2);
+}
+
+.dropdown-label {
+    width: 100%;
+    min-width: 200px;
+    max-width: var(--width-form);
+    padding: 0 var(--space-3);
+    color: var(--text-input-placeholder);
+    height: 44px;
+}
+
+.dropdown-label div {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.dropdown-label span.selected {
+    color: var(--text-primary);
+}

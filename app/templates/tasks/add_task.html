@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block title %}Добавление заданий{% endblock title %}
+
+{% block content %}
+    <div class="page-header" style="max-width: 700px; margin: var(--space-6) auto;">
+        <div class="page-header-content">
+            <h1 class="page-title">
+                <i class="fas fa-plus-circle"></i>
+                Создание заданий
+            </h1>
+            <p class="page-subtitle">Заполните данные для создания новых заданий сотрудникам</p>
+        </div>
+    </div>
+
+    <div class="form-container" style="max-width: 700px;">
+        <form method="POST" id="tasks-form">
+            <div class="form-section">
+                <div class="form-section-header">
+                    <i class="fas fa-user"></i>
+                    <span>Информация о сотруднике</span>
+                </div>
+                <div class="form-group">
+                    <i class="fas fa-user" style="left: 14px;"></i>
+                    <input
+                        type="text"
+                        name="employee_data"
+                        class="employee-search"
+                        placeholder="ФИО работника"
+                        autocomplete="off"
+                        value="{{ employee_data | default('') }}"
+                        required
+                    />
+                    <div class="employee-search-suggestions suggestions-list"></div>
+                </div>
+
+                <div class="form-group">
+                    <i class="fas fa-calendar-alt" style="left: 14px;"></i>
+                    <input
+                        type="date"
+                        name="operation_date"
+                        value="{{ operation_date | default('') }}"
+                        style="cursor: pointer;"
+                    />
+                </div>
+            </div>
+
+            <div id="tasks-container">
+                <div class="task-block">
+                    <div class="task-block-header">
+                        <i class="fas fa-cube"></i>
+                        <span class="task-block-title">Блок &#8470;1</span>
+                    </div>
+                    <div class="form-group">
+                        <i class="fas fa-cogs" style="left: 14px;"></i>
+                        <input
+                            type="text"
+                            name="order_name[]"
+                            class="order-name"
+                            placeholder="Наименование заказа"
+                            autocomplete="off"
+                            required
+                        />
+                        <div class="order-name-suggestions suggestions-list"></div>
+                    </div>
+                    <div class="form-group">
+                        <i class="fas fa-hashtag" style="left: 14px;"></i>
+                        <input
+                            type="text"
+                            name="order_number[]"
+                            value="{{ order_number }}"
+                            class="order-number"
+                            placeholder="Номер заказа"
+                            autocomplete="off"
+                            required
+                        />
+                        <div class="order-number-suggestions suggestions-list"></div>
+                    </div>
+                    <div class="task-actions">
+                        <button type="button" class="default-button btn-works-add">
+                            <i class="fas fa-toolbox"></i>
+                            Добавить работы
+                        </button>
+                        <button type="button" class="default-button btn-block-delete btn-block-delete--danger">
+                            <i class="fas fa-trash"></i>
+                            Удалить блок
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="task-actions">
+                <button type="button" id="btn-block-add" class="default-button btn-block-add">
+                    <i class="fas fa-plus"></i>
+                    Добавить блок
+                </button>
+                <button type="submit" class="default-button btn-tasks-save">
+                    <i class="fas fa-save"></i>
+                    Сохранить задания
+                </button>
+            </div>
+            <div id="hidden-work-hours-container" style="display: none;"></div>
+        </form>
+    </div>
+
+    {% include "partials/flash_messages.html" %}
+
+    <div class="modal-overlay">
+        <div class="modal-dialog">
+            <div class="modal-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <span class="modal-close"><i class="fas fa-times"></i></span>
+            <p class="modal-message">Вы уверены, что хотите удалить блок?</p>
+            <div class="modal-actions">
+                <button id="cancel-delete-task" class="btn btn-secondary">Отмена</button>
+                <button id="confirm-delete-task" class="btn btn-danger">Удалить</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="works-modal-overlay" style="display: none;">
+        <div class="works-modal-dialog">
+            <span class="works-modal-close"><i class="fas fa-times"></i></span>
+            <div id="works-modal-heading"></div>
+            <table id="works-grid" class="works-modal-grid">
+                <thead>
+                    <tr>
+                        <th>Наименование работы</th>
+                        <th>Плановая трудоемкость, ч</th>
+                        <th>Фактическая трудоемкость, ч</th>
+                        <th>Остаточная трудоемкость, ч</th>
+                        <th>Затраченное время, ч</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <button id="save-works" class="btn" style="margin-top: 20px;">Закрыть</button>
+        </div>
+    </div>
+{% endblock content %}

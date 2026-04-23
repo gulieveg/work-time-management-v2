@@ -1,0 +1,237 @@
+{% extends "control/base.html" %}
+
+{% block title %}Главная{% endblock title %}
+
+{% block content %}
+<div class="control-header">
+        <div class="header-left">
+            <div class="header-greeting">
+                <i class="fas fa-user-circle"></i>
+                <span class="greeting-name">{{ user_name }}</span>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="header-date">
+                <i class="fas fa-calendar-alt"></i>
+                <span id="current-date"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="stats-container">
+        <div class="stats-header">
+            <i class="fas fa-chart-bar"></i>
+            <span>Общая статистика</span>
+        </div>
+        <div class="stats-grid">
+            <a href="{{ url_for('control.orders.orders_table') }}" class="stat-card stat-card--orders">
+                <div class="stat-card-icon">
+                    <i class="fas fa-box-open"></i>
+                </div>
+                <div class="stat-card-content">
+                    <div class="stat-card-value">{{ orders_count }}</div>
+                    <div class="stat-card-label">Активных заказов</div>
+                </div>
+                <i class="fas fa-chevron-right stat-card-arrow"></i>
+            </a>
+
+            <a href="{{ url_for('control.orders.orders_table') }}" class="stat-card stat-card--closed">
+                <div class="stat-card-icon">
+                    <i class="fas fa-archive"></i>
+                </div>
+                <div class="stat-card-content">
+                    <div class="stat-card-value">200</div>
+                    <div class="stat-card-label">Закрытых заказов</div>
+                </div>
+                <i class="fas fa-chevron-right stat-card-arrow"></i>
+            </a>
+
+            <a href="{{ url_for('control.users.users_table') }}" class="stat-card stat-card--users">
+                <div class="stat-card-icon">
+                    <i class="fas fa-user-cog"></i>
+                </div>
+                <div class="stat-card-content">
+                    <div class="stat-card-value">{{ users_count }}</div>
+                    <div class="stat-card-label">Пользователей</div>
+                </div>
+                <i class="fas fa-chevron-right stat-card-arrow"></i>
+            </a>
+
+            <a href="{{ url_for('control.employees.employees_table') }}" class="stat-card stat-card--employees">
+                <div class="stat-card-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-card-content">
+                    <div class="stat-card-value">{{ employees_count }}</div>
+                    <div class="stat-card-label">Сотрудников</div>
+                </div>
+                <i class="fas fa-chevron-right stat-card-arrow"></i>
+            </a>
+
+            <a href="{{ url_for('tasks.tasks_table') }}" class="stat-card stat-card--tasks">
+                <div class="stat-card-icon">
+                    <i class="fas fa-tasks"></i>
+                </div>
+                <div class="stat-card-content">
+                    <div class="stat-card-value">{{ tasks_count }}</div>
+                    <div class="stat-card-label">Заданий</div>
+                </div>
+                <i class="fas fa-chevron-right stat-card-arrow"></i>
+            </a>
+
+            <a href="{{ url_for('control.works.works_table') }}" class="stat-card stat-card--works">
+                <div class="stat-card-icon">
+                    <i class="fas fa-briefcase"></i>
+                </div>
+                <div class="stat-card-content">
+                    <div class="stat-card-value">{{ works_count }}</div>
+                    <div class="stat-card-label">Видов работ</div>
+                </div>
+                <i class="fas fa-chevron-right stat-card-arrow"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="quick-actions-section">
+        <div class="section-container">
+            <div class="section-header">
+                <i class="fas fa-bolt"></i>
+                <span>Быстрые действия</span>
+            </div>
+            <div class="quick-actions-grid">
+                <a href="{{ url_for('control.orders.add_order') }}" class="quick-action-card">
+                    <div class="quick-action-icon">
+                        <i class="fas fa-plus-circle"></i>
+                    </div>
+                    <div class="quick-action-content">
+                        <div class="quick-action-title">Создать заказ</div>
+                        <div class="quick-action-desc">Добавить новый заказ в систему</div>
+                    </div>
+                </a>
+
+                <a href="{{ url_for('control.employees.add_employee') }}" class="quick-action-card">
+                    <div class="quick-action-icon">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <div class="quick-action-content">
+                        <div class="quick-action-title">Добавить сотрудника</div>
+                        <div class="quick-action-desc">Регистрация нового сотрудника</div>
+                    </div>
+                </a>
+
+                <a href="{{ url_for('control.works.add_work') }}" class="quick-action-card">
+                    <div class="quick-action-icon">
+                        <i class="fas fa-toolbox"></i>
+                    </div>
+                    <div class="quick-action-content">
+                        <div class="quick-action-title">Добавить работу</div>
+                        <div class="quick-action-desc">Создать новый вид работы</div>
+                    </div>
+                </a>
+
+                <a href="{{ url_for('control.hours.add_hours') }}" class="quick-action-card">
+                    <div class="quick-action-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="quick-action-content">
+                        <div class="quick-action-title">Ввести трудоемкость</div>
+                        <div class="quick-action-desc">Указать затраченные часы</div>
+                    </div>
+                </a>
+
+                <a href="{{ url_for('control.reports.reports') }}" class="quick-action-card">
+                    <div class="quick-action-icon">
+                        <i class="fas fa-file-export"></i>
+                    </div>
+                    <div class="quick-action-content">
+                        <div class="quick-action-title">Сформировать отчет</div>
+                        <div class="quick-action-desc">Экспорт данных в файл</div>
+                    </div>
+                </a>
+
+                <a href="{{ url_for('help.index') }}" class="quick-action-card">
+                    <div class="quick-action-icon">
+                        <i class="fas fa-question-circle"></i>
+                    </div>
+                    <div class="quick-action-content">
+                        <div class="quick-action-title">Справка</div>
+                        <div class="quick-action-desc">Документация и инструкции</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="info-cards-section">
+        <div class="info-card">
+            <div class="info-card-header">
+                <i class="fas fa-history"></i>
+                <span>Последние действия</span>
+            </div>
+            <div class="info-card-content">
+                {% if recent_logs %}
+                    <div class="logs-list">
+                        {% for log in recent_logs %}
+                            <div class="log-item">
+                                <span class="log-action">{{ log[1] }}</span>
+                                <span class="log-meta">{{ log[3] }} · {{ log[9] }}</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="info-card-empty">
+                        <i class="fas fa-inbox"></i>
+                    </div>
+                {% endif %}
+            </div>
+            <a href="{{ url_for('control.logs.logs_table') }}" class="info-card-action">
+                Открыть журнал
+                <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+
+        <div class="info-card">
+            <div class="info-card-header">
+                <i class="fas fa-chart-pie"></i>
+                <span>Аналитика</span>
+            </div>
+            <div class="info-card-content">
+                <div class="analytics-mini">
+                    <div class="analytics-item">
+                        <span class="analytics-label">Открытых заказов:</span>
+                        <span class="analytics-value">{{ orders_count }}</span>
+                    </div>
+                    <div class="analytics-item">
+                        <span class="analytics-label">Закрытых заказов:</span>
+                        <span class="analytics-value">200</span>
+                    </div>
+                    <div class="analytics-item">
+                        <span class="analytics-label">Пользователей:</span>
+                        <span class="analytics-value">{{ users_count }}</span>
+                    </div>
+                    <div class="analytics-item">
+                        <span class="analytics-label">Сотрудников:</span>
+                        <span class="analytics-value">{{ employees_count }}</span>
+                    </div>
+                    <div class="analytics-item">
+                        <span class="analytics-label">Заданий:</span>
+                        <span class="analytics-value">{{ tasks_count }}</span>
+                    </div>
+                    <div class="analytics-item">
+                        <span class="analytics-label">Видов работ:</span>
+                        <span class="analytics-value">{{ works_count }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('current-date').textContent = new Date().toLocaleDateString('ru-RU', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+    </script>
+{% endblock content %}

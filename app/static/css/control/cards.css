@@ -257,11 +257,6 @@
     border: 1px solid var(--border-card);
 }
 
-.header-left {
-    display: flex;
-    align-items: center;
-}
-
 .header-right {
     display: flex;
     align-items: center;
@@ -281,10 +276,10 @@
 
 .header-greeting i {
     color: var(--color-brand-500);
-    font-size: var(--text-xl);
+    font-size: var(--text-base);
 }
 
-.greeting-name {
+.header-greeting .greeting-name {
     color: var(--text-primary);
     font-weight: var(--font-medium);
 }
@@ -292,8 +287,8 @@
 .header-date {
     display: flex;
     align-items: center;
-    gap: var(--space-2);
-    padding: var(--space-2) var(--space-3);
+    gap: var(--space-3);
+    padding: var(--space-2) var(--space-4);
     background: var(--color-brand-50);
     border: 1px solid var(--color-brand-200);
     border-radius: var(--radius-md);
@@ -307,6 +302,35 @@
 
 .header-date span {
     color: var(--text-secondary);
+    font-weight: var(--font-medium);
+}
+
+.header-link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-2) var(--space-4);
+    background: var(--color-brand-50);
+    border: 1px solid var(--color-brand-200);
+    border-radius: var(--radius-md);
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+}
+
+.header-link:hover {
+    background: var(--color-brand-100);
+    border-color: var(--color-brand-300);
+    color: var(--text-primary);
+}
+
+.header-link i {
+    color: var(--color-brand-500);
+    font-size: var(--text-base);
+}
+
+.header-link span {
     font-weight: var(--font-medium);
 }
 
@@ -389,6 +413,61 @@
 
 .section-header i {
     color: var(--color-brand-500);
+}
+
+.section-help {
+    margin-left: auto;
+    position: relative;
+    cursor: help;
+}
+
+.section-help i {
+    color: var(--text-tertiary);
+    font-size: var(--text-sm);
+    transition: color var(--transition-fast);
+}
+
+.info-card-header .section-help i {
+    color: var(--text-tertiary);
+}
+
+.section-help:hover i {
+    color: var(--color-brand-500);
+}
+
+.section-header .section-help i {
+    font-size: var(--text-base);
+}
+
+.stats-header .section-help i {
+    font-size: var(--text-base);
+}
+
+.section-help::before {
+    content: attr(data-help);
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    padding: var(--space-2) var(--space-3);
+    background: var(--color-surface-900);
+    color: var(--text-inverse);
+    font-size: var(--text-xs);
+    font-weight: var(--font-medium);
+    border-radius: var(--radius-md);
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition-fast);
+    z-index: var(--z-tooltip);
+    max-width: 280px;
+    white-space: normal;
+    text-align: left;
+    line-height: 1.4;
+    pointer-events: none;
+}
+
+.section-help:hover::before {
+    opacity: 1;
+    visibility: visible;
 }
 
 .quick-actions-grid {
@@ -485,6 +564,14 @@
 .info-card-content {
     padding: var(--space-4);
     flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.info-card-content:has(.analytics-mini) {
+    align-items: stretch;
+    justify-content: flex-start;
 }
 
 .info-card-action {
@@ -560,6 +647,7 @@
     display: flex;
     flex-direction: column;
     gap: var(--space-3);
+    width: 100%;
 }
 
 .analytics-item {

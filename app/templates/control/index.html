@@ -4,13 +4,19 @@
 
 {% block content %}
 <div class="control-header">
-        <div class="header-left">
-            <div class="header-greeting">
-                <i class="fas fa-user-circle"></i>
-                <span class="greeting-name">{{ user_name }}</span>
-            </div>
+        <div class="header-greeting">
+            <i class="fas fa-user-circle"></i>
+            <span class="greeting-name">{{ user_name }}</span>
         </div>
         <div class="header-right">
+            <a href="{{ url_for('help.index') }}" class="header-link">
+                <i class="fas fa-book"></i>
+                <span>Документация</span>
+            </a>
+            <a href="mailto:support@example.com" class="header-link">
+                <i class="fas fa-envelope"></i>
+                <span>Обратная связь</span>
+            </a>
             <div class="header-date">
                 <i class="fas fa-calendar-alt"></i>
                 <span id="current-date"></span>
@@ -22,6 +28,9 @@
         <div class="stats-header">
             <i class="fas fa-chart-bar"></i>
             <span>Общая статистика</span>
+            <div class="section-help" data-help="Общая статистика системы: количество заказов, пользователей, сотрудников и других объектов">
+                <i class="fas fa-question-circle"></i>
+            </div>
         </div>
         <div class="stats-grid">
             <a href="{{ url_for('control.orders.orders_table') }}" class="stat-card stat-card--orders">
@@ -46,20 +55,20 @@
                 <i class="fas fa-chevron-right stat-card-arrow"></i>
             </a>
 
-            <a href="{{ url_for('control.users.users_table') }}" class="stat-card stat-card--users">
+            <a href="{{ url_for('control.works.works_table') }}" class="stat-card stat-card--works">
                 <div class="stat-card-icon">
-                    <i class="fas fa-user-cog"></i>
+                    <i class="fas fa-briefcase"></i>
                 </div>
                 <div class="stat-card-content">
-                    <div class="stat-card-value">{{ users_count }}</div>
-                    <div class="stat-card-label">Пользователей</div>
+                    <div class="stat-card-value">{{ works_count }}</div>
+                    <div class="stat-card-label">Видов работ</div>
                 </div>
                 <i class="fas fa-chevron-right stat-card-arrow"></i>
             </a>
 
             <a href="{{ url_for('control.employees.employees_table') }}" class="stat-card stat-card--employees">
                 <div class="stat-card-icon">
-                    <i class="fas fa-users"></i>
+                    <i class="fas fa-user-cog"></i>
                 </div>
                 <div class="stat-card-content">
                     <div class="stat-card-value">{{ employees_count }}</div>
@@ -68,24 +77,24 @@
                 <i class="fas fa-chevron-right stat-card-arrow"></i>
             </a>
 
-            <a href="{{ url_for('tasks.tasks_table') }}" class="stat-card stat-card--tasks">
+            <a href="{{ url_for('control.users.users_table') }}" class="stat-card stat-card--users">
                 <div class="stat-card-icon">
-                    <i class="fas fa-tasks"></i>
+                    <i class="fas fa-user-shield"></i>
                 </div>
                 <div class="stat-card-content">
-                    <div class="stat-card-value">{{ tasks_count }}</div>
-                    <div class="stat-card-label">Заданий</div>
+                    <div class="stat-card-value">{{ users_count }}</div>
+                    <div class="stat-card-label">Пользователей</div>
                 </div>
                 <i class="fas fa-chevron-right stat-card-arrow"></i>
             </a>
 
-            <a href="{{ url_for('control.works.works_table') }}" class="stat-card stat-card--works">
+            <a href="{{ url_for('tasks.tasks_table') }}" class="stat-card stat-card--tasks">
                 <div class="stat-card-icon">
-                    <i class="fas fa-briefcase"></i>
+                    <i class="fas fa-thumbtack"></i>
                 </div>
                 <div class="stat-card-content">
-                    <div class="stat-card-value">{{ works_count }}</div>
-                    <div class="stat-card-label">Видов работ</div>
+                    <div class="stat-card-value">{{ tasks_count }}</div>
+                    <div class="stat-card-label">Заданий</div>
                 </div>
                 <i class="fas fa-chevron-right stat-card-arrow"></i>
             </a>
@@ -97,6 +106,9 @@
             <div class="section-header">
                 <i class="fas fa-bolt"></i>
                 <span>Быстрые действия</span>
+                <div class="section-help" data-help="Часто используемые операции для быстрого доступа">
+                    <i class="fas fa-question-circle"></i>
+                </div>
             </div>
             <div class="quick-actions-grid">
                 <a href="{{ url_for('control.orders.add_order') }}" class="quick-action-card">
@@ -109,19 +121,9 @@
                     </div>
                 </a>
 
-                <a href="{{ url_for('control.employees.add_employee') }}" class="quick-action-card">
-                    <div class="quick-action-icon">
-                        <i class="fas fa-user-plus"></i>
-                    </div>
-                    <div class="quick-action-content">
-                        <div class="quick-action-title">Добавить сотрудника</div>
-                        <div class="quick-action-desc">Регистрация нового сотрудника</div>
-                    </div>
-                </a>
-
                 <a href="{{ url_for('control.works.add_work') }}" class="quick-action-card">
                     <div class="quick-action-icon">
-                        <i class="fas fa-toolbox"></i>
+                        <i class="fas fa-briefcase"></i>
                     </div>
                     <div class="quick-action-content">
                         <div class="quick-action-title">Добавить работу</div>
@@ -129,13 +131,23 @@
                     </div>
                 </a>
 
-                <a href="{{ url_for('control.hours.add_hours') }}" class="quick-action-card">
+                <a href="{{ url_for('control.employees.add_employee') }}" class="quick-action-card">
                     <div class="quick-action-icon">
-                        <i class="fas fa-clock"></i>
+                        <i class="fas fa-user-cog"></i>
                     </div>
                     <div class="quick-action-content">
-                        <div class="quick-action-title">Ввести трудоемкость</div>
-                        <div class="quick-action-desc">Указать затраченные часы</div>
+                        <div class="quick-action-title">Добавить сотрудника</div>
+                        <div class="quick-action-desc">Регистрация нового сотрудника</div>
+                    </div>
+                </a>
+
+                <a href="{{ url_for('control.users.add_user') }}" class="quick-action-card">
+                    <div class="quick-action-icon">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <div class="quick-action-content">
+                        <div class="quick-action-title">Добавить пользователя</div>
+                        <div class="quick-action-desc">Регистрация нового пользователя</div>
                     </div>
                 </a>
 
@@ -167,6 +179,9 @@
             <div class="info-card-header">
                 <i class="fas fa-history"></i>
                 <span>Последние действия</span>
+                <div class="section-help" data-help="Журнал последних действий пользователей в системе">
+                    <i class="fas fa-question-circle"></i>
+                </div>
             </div>
             <div class="info-card-content">
                 {% if recent_logs %}
@@ -194,32 +209,35 @@
             <div class="info-card-header">
                 <i class="fas fa-chart-pie"></i>
                 <span>Аналитика</span>
+                <div class="section-help" data-help="Сводка по основным показателям системы">
+                    <i class="fas fa-question-circle"></i>
+                </div>
             </div>
             <div class="info-card-content">
                 <div class="analytics-mini">
                     <div class="analytics-item">
-                        <span class="analytics-label">Открытых заказов:</span>
+                        <span class="analytics-label">Открытых заказов</span>
                         <span class="analytics-value">{{ orders_count }}</span>
                     </div>
                     <div class="analytics-item">
-                        <span class="analytics-label">Закрытых заказов:</span>
+                        <span class="analytics-label">Закрытых заказов</span>
                         <span class="analytics-value">200</span>
                     </div>
                     <div class="analytics-item">
-                        <span class="analytics-label">Пользователей:</span>
-                        <span class="analytics-value">{{ users_count }}</span>
+                        <span class="analytics-label">Видов работ</span>
+                        <span class="analytics-value">{{ works_count }}</span>
                     </div>
                     <div class="analytics-item">
-                        <span class="analytics-label">Сотрудников:</span>
+                        <span class="analytics-label">Сотрудников</span>
                         <span class="analytics-value">{{ employees_count }}</span>
                     </div>
                     <div class="analytics-item">
-                        <span class="analytics-label">Заданий:</span>
-                        <span class="analytics-value">{{ tasks_count }}</span>
+                        <span class="analytics-label">Пользователей</span>
+                        <span class="analytics-value">{{ users_count }}</span>
                     </div>
                     <div class="analytics-item">
-                        <span class="analytics-label">Видов работ:</span>
-                        <span class="analytics-value">{{ works_count }}</span>
+                        <span class="analytics-label">Заданий</span>
+                        <span class="analytics-value">{{ tasks_count }}</span>
                     </div>
                 </div>
             </div>

@@ -22,12 +22,12 @@
 
                 {% set menu_items = [
                     ["control.index", "fas fa-home", "Главная", true],
-                    ["control.orders.orders_table", "fas fa-shopping-cart", "Заказы", true],
+                    ["control.orders.orders_table", "fas fa-cube", "Заказы", true],
                     ["control.works.works_table", "fas fa-briefcase", "Работы", true],
                     ["control.employees.employees_table", "fas fa-user-cog", "Сотрудники", true],
+                    ["control.users.users_table", "fas fa-user-shield", "Пользователи", current_user.is_admin],
                     ["control.hours.hours_table", "fas fa-clock", "Трудоемкость", true],
                     ["control.reports.reports", "fas fa-chart-bar", "Отчеты", true],
-                    ["control.users.users_table", "fas fa-user-shield", "Пользователи", current_user.is_admin],
                     ["control.logs.logs_table", "fas fa-history", "Журнал", current_user.is_admin],
                 ] %}
 

@@ -46,12 +46,6 @@
     letter-spacing: var(--tracking-wide);
 }
 
-.sidebar-divider {
-    height: 1px;
-    background: var(--border-sidebar);
-    margin: var(--space-2) var(--space-4);
-}
-
 .sidebar-menu {
     display: flex;
     flex-direction: column;

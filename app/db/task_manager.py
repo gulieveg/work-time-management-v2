@@ -2,6 +2,8 @@ from datetime import datetime
 from decimal import Decimal
 from typing import Dict, List, Optional, Tuple, Union
 
+from app.utils import EMPLOYEE_CATEGORIES
+
 from .db_connection import DatabaseConnection
 from .employee_manager import EmployeeManager
 
@@ -272,18 +274,11 @@ class TaskManager(DatabaseConnection):
         Returns:
             tasks_data (Data): List of lists, where each inner list contains the data for one specific task.
         """
-
-        employee_categories: Dict[str, str] = {
-            "worker": "Рабочий",
-            "specialist": "Специалист",
-            "manager": "Руководитель",
-        }
-
         tasks_data: Data = [
             [
                 task["employee_name"],
                 task["personnel_number"],
-                employee_categories[task["employee_category"]],
+                EMPLOYEE_CATEGORIES[task["employee_category"]],
                 task["department"],
                 task["order_number"],
                 task["order_name"],

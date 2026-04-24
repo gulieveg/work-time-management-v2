@@ -4,10 +4,9 @@ from flask import Blueprint, jsonify, request
 from flask_login import login_required
 from werkzeug.wrappers import Response
 
-from app.db import DatabaseManager
+from app.db import db_manager
 
 orders_bp: Blueprint = Blueprint("orders", __name__, url_prefix="/orders")
-db_manager: DatabaseManager = DatabaseManager()
 
 
 @orders_bp.route("/names", methods=["GET"])

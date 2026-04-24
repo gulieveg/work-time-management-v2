@@ -1,14 +1,13 @@
 from typing import List, Tuple
 
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template
 from flask_login import login_required
 from werkzeug.wrappers import Response
 
-from app.db import DatabaseManager
+from app.db import db_manager
 from app.utils import permission_required
 
 logs_bp: Blueprint = Blueprint("logs", __name__, url_prefix="/logs")
-db_manager: DatabaseManager = DatabaseManager()
 
 
 @logs_bp.route("", methods=["GET"])

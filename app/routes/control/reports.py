@@ -6,14 +6,13 @@ from typing import Dict, List, Union
 from flask import Blueprint, render_template, request, send_file
 from flask_login import login_required
 
-from app.db import DatabaseManager
+from app.db import db_manager
 from app.utils import get_report_file, permission_required
 
 Tasks = List[Dict[str, Union[str, Decimal]]]
 Data = List[List[Union[str, Decimal]]]
 
 reports_bp: Blueprint = Blueprint("reports", __name__, url_prefix="/reports")
-db_manager: DatabaseManager = DatabaseManager()
 
 
 @reports_bp.route("", methods=["GET"])
@@ -24,9 +23,9 @@ def reports() -> str:
     end_date: str = request.args.get("end_date")
 
     if start_date:
-        start_date: Union[str, datetime] = datetime.strptime(start_date, "%Y-%m-%d")
+        start_date = datetime.strptime(start_date, "%Y-%m-%d")
     if end_date:
-        end_date: Union[str, datetime] = datetime.strptime(end_date, "%Y-%m-%d")
+        end_date = datetime.strptime(end_date, "%Y-%m-%d")
 
     if request.args.get("export"):
         tasks: Tasks = db_manager.tasks.get_tasks(start_date=start_date, end_date=end_date)

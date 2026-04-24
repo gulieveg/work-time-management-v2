@@ -1,5 +1,11 @@
 from typing import Dict
 
+EMPLOYEE_CATEGORIES: Dict[str, str] = {
+    "worker": "Рабочий",
+    "specialist": "Специалист",
+    "manager": "Руководитель",
+}
+
 MESSAGES: Dict[str, Dict[str, str]] = {
     "auth": {
         "registration_denied": "Регистрация с указанным логином невозможна. Обратитесь к администратору.",

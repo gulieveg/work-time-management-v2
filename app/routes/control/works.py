@@ -2,13 +2,12 @@ from decimal import Decimal
 from typing import Dict, List, Tuple, Union
 
 from flask import Blueprint, Response, flash, jsonify, redirect, render_template, request, url_for
-from flask_login import login_required
+from flask_login import current_user, login_required
 
-from app.db import DatabaseManager
-from app.utils import MESSAGES, permission_required
+from app.db import db_manager
+from app.utils import MESSAGES, create_log, permission_required
 
 works_bp: Blueprint = Blueprint("works", __name__, url_prefix="/works")
-db_manager: DatabaseManager = DatabaseManager()
 
 
 @works_bp.route("", methods=["GET"])
@@ -64,12 +63,13 @@ def add_work() -> str:
             flash(message=MESSAGES["works"]["work_exists"], category="warning")
             return render_template("control/works/add_work.html")
 
-        args: Dict[str, str] = {
+        args: Dict[str, Union[int, str]] = {
             "order_id": order_id,
             "work_name": work_name,
             "planned_hours": Decimal(planned_hours),
         }
-        db_manager.works.add_work(**args)
+        work_id = db_manager.works.add_work(**args)
+        create_log("CREATE", work_id, "work")
 
         flash(message=MESSAGES["works"]["work_added"], category="info")
         return render_template("control/works/add_work.html")
@@ -108,6 +108,7 @@ def edit_work(work_id: int) -> Union[str, Response]:
             "planned_hours": Decimal(planned_hours),
         }
         db_manager.works.update_work(**args)
+        create_log("UPDATE", work_id, "work")
 
         flash(message=MESSAGES["works"]["work_updated"], category="info")
         return redirect(url_for("control.works.edit_work", work_id=work_id))
@@ -127,6 +128,7 @@ def delete_work(work_id: int) -> Response:
     }
 
     db_manager.works.delete_work(work_id)
+    create_log("DELETE", work_id, "work")
     return redirect(url_for("control.works.works_table", **args))
 
 

@@ -3,18 +3,23 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 
 from .db_connection import DatabaseConnection
 
+DEFAULT_PAGE_SIZE: int = 10
+
 
 class WorkManager(DatabaseConnection):
-    def add_work(self, order_id: str, work_name: str, planned_hours: Decimal) -> None:
+    def add_work(self, order_id: str, work_name: str, planned_hours: Decimal) -> int:
         query: str = """
             INSERT INTO works (order_id, name, planned_hours)
+            OUTPUT INSERTED.id
             VALUES (?, ?, ?)
         """
 
         with self.get_connection() as connection:
             with connection.cursor() as cursor:
                 cursor.execute(query, (order_id, work_name.strip(), planned_hours))
+                result = cursor.fetchone()
                 connection.commit()
+                return int(result[0])
 
     def update_work(self, work_id: int, work_name: str, planned_hours: Decimal) -> None:
         query: str = "UPDATE works SET name = ?, planned_hours = ? WHERE id = ?"
@@ -90,15 +95,14 @@ class WorkManager(DatabaseConnection):
         with self.get_connection() as connection:
             with connection.cursor() as cursor:
                 if page:
-                    page_size: int = 10
-                    offset: int = (page - 1) * page_size
+                    offset: int = (page - 1) * DEFAULT_PAGE_SIZE
                     query += """
                         ORDER BY works.id
                         OFFSET ? ROWS
                         FETCH NEXT ? ROWS ONLY
                     """
                     params.append(offset)
-                    params.append(page_size)
+                    params.append(DEFAULT_PAGE_SIZE)
 
                 cursor.execute(query, tuple(params))
                 works: List[Tuple[Any]] = cursor.fetchall()
@@ -165,7 +169,7 @@ class WorkManager(DatabaseConnection):
                 work_names: List[str] = [data[0] for data in cursor.fetchall()]
                 return work_names
 
-    def get_planned_hours_per_work(self, order_numbers: List[str], work_names: List[str]) -> List:
+    def get_planned_hours_per_work(self, order_numbers: List[str], work_names: List[str]) -> List[Tuple[Any, ...]]:
         if not order_numbers or not work_names:
             return []
 

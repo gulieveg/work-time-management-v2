@@ -183,13 +183,42 @@
                     <i class="fas fa-question-circle"></i>
                 </div>
             </div>
-            <div class="info-card-content">
+<div class="info-card-content">
                 {% if recent_logs %}
                     <div class="logs-list">
                         {% for log in recent_logs %}
                             <div class="log-item">
-                                <span class="log-action">{{ log[1] }}</span>
-                                <span class="log-meta">{{ log[3] }} · {{ log[9] }}</span>
+                                <div class="log-row">
+                                    <div class="log-header">
+                                        <span class="log-description">{{ log.short_description }}</span>
+                                        <span class="log-time">{{ log.created_date }} {{ log.created_time }}</span>
+                                    </div>
+                                    <button class="log-details-toggle" onclick="toggleLogDetails(this)">
+                                        <i class="fas fa-chevron-down"></i>
+                                    </button>
+                                </div>
+                                <div class="log-details">
+                                    <div class="log-detail-row">
+                                        <i class="fas fa-user"></i>
+                                        <span>{{ log.user_name }}</span>
+                                    </div>
+                                    <div class="log-detail-row">
+                                        <i class="fas fa-tag"></i>
+                                        <span>{{ log.full_description }}</span>
+                                    </div>
+                                    <div class="log-detail-row">
+                                        <i class="fas fa-id-card"></i>
+                                        <span>{{ log.entity_label }}: {{ log.entity_name }}</span>
+                                    </div>
+                                    <div class="log-detail-row">
+                                        <i class="fas fa-globe"></i>
+                                        <span>{{ log.ip_address }}</span>
+                                    </div>
+                                    <div class="log-detail-row">
+                                        <i class="fas fa-desktop"></i>
+                                        <span>{{ log.platform }} / {{ log.browser }}</span>
+                                    </div>
+                                </div>
                             </div>
                         {% endfor %}
                     </div>

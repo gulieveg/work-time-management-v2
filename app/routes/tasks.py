@@ -4,18 +4,17 @@ from io import BytesIO
 from typing import Dict, List, Tuple, Union
 
 from flask import Blueprint, flash, redirect, render_template, request, send_file, url_for
-from flask_login import login_required
+from flask_login import current_user, login_required
 from werkzeug.wrappers import Response
 
-from app.db import DatabaseManager
-from app.utils import MESSAGES, get_report_file, permission_required
+from app.db import db_manager
+from app.utils import MESSAGES, create_log, get_report_file, permission_required
 
 Tasks = List[Dict[str, Union[str, Decimal]]]
 Data = List[List[Union[str, Decimal]]]
 GroupedData = Dict[str, Dict[str, Union[str, Dict[str, Decimal]]]]
 
 tasks_bp: Blueprint = Blueprint("tasks", __name__, url_prefix="/tasks")
-db_manager: DatabaseManager = DatabaseManager()
 
 
 @tasks_bp.route("/", methods=["GET"])
@@ -93,7 +92,7 @@ def add_task() -> Union[str, Response]:
         order_numbers: List[str] = request.form.getlist("order_number[]")
 
         if not operation_date:
-            operation_date: str = datetime.now().strftime("%Y-%m-%d")
+            operation_date = datetime.now().strftime("%Y-%m-%d")
 
         employee_details: Tuple[str, str] = db_manager.employees.get_employee_details(employee_data)
         employee_name, personnel_number = employee_details
@@ -122,7 +121,7 @@ def add_task() -> Union[str, Response]:
                     return render_template("tasks/add_task.html")
                 total_spent_hours += spent_hours
 
-        if total_spent_hours > Decimal(12.25):
+        if total_spent_hours > Decimal("12.25"):
             flash(message=MESSAGES["tasks"]["hours_exceed_limit"], category="error")
             return render_template("tasks/add_task.html")
 
@@ -139,7 +138,8 @@ def add_task() -> Union[str, Response]:
                     "operation_date": operation_date,
                     "employee_category": employee_category,
                 }
-                db_manager.tasks.add_task(**args)
+                task_id = db_manager.tasks.add_task(**args)
+                create_log("CREATE", task_id, "task")
         flash(message="Задания успешно добавлены.", category="info")
         return redirect(url_for("tasks.add_task"))
     return render_template("tasks/add_task.html")
@@ -200,7 +200,7 @@ def edit_task(task_id: int) -> Union[str, Response]:
         free_hours: Decimal = db_manager.employees.get_employee_free_hours(personnel_number, operation_date)
 
         if Decimal(hours) > free_hours + context["hours"]:
-            free_hours: Decimal = free_hours + context["hours"]
+            free_hours = free_hours + context["hours"]
             message: str = MESSAGES["employees"]["exceeded_hours"].format(employee_data, free_hours)
             flash(message=message, category="warning")
             context: Dict[str, str] = {
@@ -225,6 +225,7 @@ def edit_task(task_id: int) -> Union[str, Response]:
             "work_name": work_name,
         }
         db_manager.tasks.update_task(**args)
+        create_log("UPDATE", task_id, "task")
 
         params: Dict[str, str] = {
             "departments[]": request.args.getlist("departments[]"),
@@ -253,4 +254,5 @@ def delete_task(task_id: str) -> Response:
         "order_name": request.form.get("order_name"),
     }
     db_manager.tasks.delete_task(task_id)
+    create_log("DELETE", task_id, "task")
     return redirect(url_for("tasks.tasks_table", **params))

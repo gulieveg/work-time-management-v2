@@ -1,14 +1,13 @@
 from typing import Dict, List, Tuple, Union
 
 from flask import Blueprint, flash, jsonify, redirect, render_template, request, url_for
-from flask_login import login_required
+from flask_login import current_user, login_required
 from werkzeug.wrappers import Response
 
-from app.db import DatabaseManager
-from app.utils import MESSAGES, permission_required
+from app.db import db_manager
+from app.utils import MESSAGES, create_log, permission_required
 
 employees_bp: Blueprint = Blueprint("employees", __name__, url_prefix="/employees")
-db_manager: DatabaseManager = DatabaseManager()
 
 
 @employees_bp.route("", methods=["GET"])
@@ -95,7 +94,8 @@ def add_employee() -> str:
             "department": employee_department,
             "category": employee_category,
         }
-        db_manager.employees.add_employee(**args)
+        employee_id = db_manager.employees.add_employee(**args)
+        create_log("CREATE", employee_id, "employee")
 
         flash(message=MESSAGES["employees"]["employee_added"], category="info")
         return render_template("control/employees/add_employee.html")
@@ -140,6 +140,7 @@ def edit_employee(employee_id: int) -> Union[str, Response]:
             "employee_category": employee_category,
         }
         db_manager.employees.update_employee(**args)
+        create_log("UPDATE", employee_id, "employee")
 
         flash(message=MESSAGES["employees"]["employee_updated"], category="info")
         return redirect(url_for("control.employees.edit_employee", employee_id=employee_id))
@@ -152,4 +153,5 @@ def edit_employee(employee_id: int) -> Union[str, Response]:
 def delete_employee(employee_id: int) -> Response:
     page: int = request.form.get("page", 1, type=int)
     db_manager.employees.delete_employee(employee_id)
+    create_log("DELETE", employee_id, "employee")
     return redirect(url_for("control.employees.employees_table", page=page))

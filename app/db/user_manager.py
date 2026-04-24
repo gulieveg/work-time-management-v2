@@ -1,7 +1,10 @@
 import hashlib
+from decimal import Decimal
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 from .db_connection import DatabaseConnection
+
+DEFAULT_PAGE_SIZE: int = 10
 
 
 class UserManager(DatabaseConnection):
@@ -14,7 +17,7 @@ class UserManager(DatabaseConnection):
         permissions_level: str,
         is_user_factory_worker: bool,
         is_user_account_enabled: bool,
-    ) -> None:
+    ) -> int:
         password_hash: Optional[str] = None
 
         if password and password.strip():
@@ -30,6 +33,7 @@ class UserManager(DatabaseConnection):
                 is_factory_worker,
                 is_account_enabled
             )
+            OUTPUT INSERTED.id
             VALUES (?, ?, ?, ?, ?, ?, ?)
         """
 
@@ -47,7 +51,9 @@ class UserManager(DatabaseConnection):
                         is_user_account_enabled,
                     ),
                 )
+                result = cursor.fetchone()
                 connection.commit()
+                return int(result[0])
 
     def delete_user(self, user_id: int) -> None:
         query: str = "DELETE FROM users WHERE id = ?"
@@ -68,22 +74,35 @@ class UserManager(DatabaseConnection):
         is_user_factory_worker: str,
         is_user_account_enabled: str,
     ) -> None:
-        fields: List[str] = ["name = ?", "department = ?", "login = ?"]
-        params: List[str] = [user_name.strip(), user_department.strip(), user_login.strip()]
+        params: List[Union[str, int, bool]] = [
+            user_name.strip(),
+            user_department.strip(),
+            user_login.strip(),
+        ]
 
         if user_password and user_password.strip():
-            fields.append("password_hash = ?")
             user_password_hash: str = hashlib.sha256(user_password.encode()).hexdigest()
             params.append(user_password_hash)
 
         if user_permissions_level and user_permissions_level.strip():
-            fields.append("permissions_level = ?")
             params.append(user_permissions_level)
 
-        fields.extend(["is_factory_worker = ?", "is_account_enabled = ?"])
         params.extend([is_user_factory_worker, is_user_account_enabled, user_id])
 
-        query: str = "UPDATE users SET {} WHERE id = ?".format(",".join(fields))
+        set_clause: str = "name = ?, department = ?, login = ?"
+        param_idx: int = 4
+
+        if user_password and user_password.strip():
+            set_clause += f", password_hash = ?"
+            param_idx += 1
+
+        if user_permissions_level and user_permissions_level.strip():
+            set_clause += f", permissions_level = ?"
+            param_idx += 1
+
+        set_clause += ", is_factory_worker = ?, is_account_enabled = ?"
+
+        query: str = f"UPDATE users SET {set_clause} WHERE id = ?"
 
         with self.get_connection() as connection:
             with connection.cursor() as cursor:
@@ -262,10 +281,9 @@ class UserManager(DatabaseConnection):
         with self.get_connection() as connection:
             with connection.cursor() as cursor:
                 if page:
-                    page_size: int = 10
-                    offset: int = (page - 1) * page_size
+                    offset: int = (page - 1) * DEFAULT_PAGE_SIZE
                     params.append(offset)
-                    params.append(page_size)
+                    params.append(DEFAULT_PAGE_SIZE)
                     query += """
                         ORDER BY id
                         OFFSET ? ROWS

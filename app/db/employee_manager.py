@@ -3,23 +3,31 @@ from collections import defaultdict
 from decimal import Decimal
 from typing import Dict, List, Match, Optional, Tuple, Union
 
+from app.utils import EMPLOYEE_CATEGORIES
+
 from .db_connection import DatabaseConnection
+
+DEFAULT_PAGE_SIZE: int = 10
+DEFAULT_HOURS_PER_DAY: Decimal = Decimal("12.25")
 
 Tasks = List[Dict[str, Union[str, Decimal]]]
 Data = List[List[Union[str, Decimal]]]
 
 
 class EmployeeManager(DatabaseConnection):
-    def add_employee(self, name: str, personnel_number: str, department: str, category: str) -> None:
+    def add_employee(self, name: str, personnel_number: str, department: str, category: str) -> int:
         query: str = """
             INSERT INTO employees (name, personnel_number, department, category)
+            OUTPUT INSERTED.id
             VALUES (?, ?, ?, ?)
         """
 
         with self.get_connection() as connection:
             with connection.cursor() as cursor:
                 cursor.execute(query, (name.strip(), personnel_number.strip(), department.strip(), category.strip()))
+                result = cursor.fetchone()
                 connection.commit()
+                return int(result[0])
 
     def update_employee(
         self,
@@ -78,9 +86,8 @@ class EmployeeManager(DatabaseConnection):
                 return used_hours
 
     def get_employee_free_hours(self, personnel_number: str, operation_date: str) -> Decimal:
-        hours_per_day: Decimal = Decimal(12.25)
         used_hours: Decimal = self.get_employee_used_hours(personnel_number.strip(), operation_date)
-        return hours_per_day - used_hours
+        return DEFAULT_HOURS_PER_DAY - used_hours
 
     def get_employee_department(self, personnel_number: str) -> Optional[str]:
         query: str = "SELECT department FROM employees WHERE personnel_number = ?"
@@ -187,10 +194,9 @@ class EmployeeManager(DatabaseConnection):
         with self.get_connection() as connection:
             with connection.cursor() as cursor:
                 if page:
-                    page_size: int = 10
-                    offset: int = (page - 1) * page_size
+                    offset: int = (page - 1) * DEFAULT_PAGE_SIZE
                     params.append(offset)
-                    params.append(page_size)
+                    params.append(DEFAULT_PAGE_SIZE)
                     query += """
                         ORDER BY id
                         OFFSET ? ROWS
@@ -288,17 +294,11 @@ class EmployeeManager(DatabaseConnection):
             )
             spent_hours_per_employee[key] += task["hours"]
 
-        employee_categories: Dict[str, str] = {
-            "worker": "Рабочий",
-            "specialist": "Специалист",
-            "manager": "Руководитель",
-        }
-
         employees_data: Data = [
             [
                 employee_details[0],
                 employee_details[1],
-                employee_categories[employee_details[2]],
+                EMPLOYEE_CATEGORIES[employee_details[2]],
                 employee_details[3],
                 operation_date,
                 spent_hours,

@@ -6,10 +6,12 @@ from typing import Dict, List, Optional, Tuple, Union
 from .db_connection import DatabaseConnection
 from .work_manager import WorkManager
 
-Tasks = List[Dict[str, Union[str, Decimal]]]
-Data = List[List[Union[str, Decimal]]]
+DEFAULT_PAGE_SIZE: int = 10
 
 work_manager: WorkManager = WorkManager()
+
+Tasks = List[Dict[str, Union[str, Decimal]]]
+Data = List[List[Union[str, Decimal]]]
 
 
 class OrderManager(DatabaseConnection):
@@ -144,10 +146,9 @@ class OrderManager(DatabaseConnection):
         with self.get_connection() as connection:
             with connection.cursor() as cursor:
                 if page:
-                    page_size: int = 9
-                    offset: int = (page - 1) * page_size
+                    offset: int = (page - 1) * DEFAULT_PAGE_SIZE
                     params.append(offset)
-                    params.append(page_size)
+                    params.append(DEFAULT_PAGE_SIZE)
                     query += """
                         ORDER BY id
                         OFFSET ? ROWS

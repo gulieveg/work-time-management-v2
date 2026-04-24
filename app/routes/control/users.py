@@ -1,15 +1,13 @@
-from decimal import Decimal
 from typing import Dict, List, Tuple, Union
 
 from flask import Blueprint, flash, jsonify, redirect, render_template, request, url_for
-from flask_login import login_required
+from flask_login import current_user, login_required
 from werkzeug.wrappers import Response
 
-from app.db import DatabaseManager
-from app.utils import MESSAGES, permission_required
+from app.db import db_manager
+from app.utils import MESSAGES, create_log, permission_required
 
 users_bp: Blueprint = Blueprint("users", __name__, url_prefix="/users")
-db_manager: DatabaseManager = DatabaseManager()
 
 
 @users_bp.route("", methods=["GET"])
@@ -73,7 +71,8 @@ def add_user() -> str:
             "is_user_factory_worker": is_user_factory_worker,
             "is_user_account_enabled": is_user_account_enabled,
         }
-        db_manager.users.add_user(**args)
+        user_id = db_manager.users.add_user(**args)
+        create_log("CREATE", user_id, "user")
 
         flash(message=MESSAGES["users"]["user_added"], category="info")
         return render_template("control/users/add_user.html")
@@ -126,6 +125,7 @@ def edit_user(user_id: int) -> Union[str, Response]:
             "is_user_account_enabled": is_user_account_enabled,
         }
         db_manager.users.update_user(**args)
+        create_log("UPDATE", user_id, "user")
 
         flash(message=MESSAGES["users"]["user_updated"], category="info")
         return redirect(url_for("control.users.edit_user", user_id=user_id))
@@ -138,6 +138,7 @@ def edit_user(user_id: int) -> Union[str, Response]:
 def delete_user(user_id: int) -> Response:
     page: int = request.form.get("page", 1, type=int)
     db_manager.users.delete_user(user_id)
+    create_log("DELETE", user_id, "user")
     return redirect(url_for("control.users.users_table", page=page))
 
 
@@ -148,6 +149,7 @@ def update_user_status(user_id: int) -> Response:
     data: Dict[str, bool] = request.get_json()
     is_active: bool = data.get("is_active")
     db_manager.users.update_user_status(user_id, is_active)
+    create_log("UPDATE" if is_active else "DISABLE", user_id, "user")
 
     payload: Dict[str, Union[str, bool, Dict[str, Union[int, bool]]]] = {
         "success": True,
@@ -161,9 +163,11 @@ def update_user_status(user_id: int) -> Response:
 
 
 @users_bp.route("/reset_user_password/<int:user_id>", methods=["POST"])
+@login_required
 def reset_user_password(user_id: int) -> Response:
     page: int = request.form.get("page", 1, type=int)
     db_manager.users.reset_user_password(user_id)
+    create_log("RESET_PASSWORD", user_id, "user")
     return redirect(url_for("control.users.users_table", page=page))
 
 

@@ -3,14 +3,13 @@ from typing import Dict, List, Tuple, Union
 
 import pandas
 from flask import Blueprint, flash, jsonify, redirect, render_template, request, url_for
-from flask_login import login_required
+from flask_login import current_user, login_required
 from werkzeug.wrappers import Response
 
-from app.db import DatabaseManager
-from app.utils import MESSAGES, permission_required
+from app.db import db_manager
+from app.utils import MESSAGES, create_log, permission_required
 
 orders_bp: Blueprint = Blueprint("orders", __name__, url_prefix="/orders")
-db_manager: DatabaseManager = DatabaseManager()
 
 
 @orders_bp.route("", methods=["GET"])
@@ -54,7 +53,7 @@ def add_order() -> str:
     if request.method == "POST":
         order_number: str = request.form.get("order_number")
         order_name: str = request.form.get("order_name")
-        file_upload: str = request.files.get("file_upload")
+        file_upload = request.files.get("file_upload")
 
         work_names: List[str] = request.form.getlist("work_name[]")
         work_planned_hours: List[str] = request.form.getlist("work_planned_hours[]")
@@ -69,6 +68,7 @@ def add_order() -> str:
         }
 
         order_id: int = db_manager.orders.add_order(**args)
+        create_log("CREATE", order_id, "order")
 
         if file_upload:
             dataframe: pandas.DataFrame = pandas.read_excel(file_upload, header=None)
@@ -79,8 +79,8 @@ def add_order() -> str:
                 if db_manager.works.work_exists(order_id, str(work_name)):
                     continue
 
-                planned_hours: str = str(planned_hours).replace(" ", "").replace(",", ".")
-                db_manager.works.add_work(order_id, str(work_name), Decimal(planned_hours))
+                planned_hours_str: str = str(planned_hours).replace(" ", "").replace(",", ".")
+                db_manager.works.add_work(order_id, str(work_name), Decimal(planned_hours_str))
 
         if work_names and work_planned_hours:
             for work_name, planned_hours in zip(work_names, work_planned_hours):
@@ -89,8 +89,8 @@ def add_order() -> str:
                 if db_manager.works.work_exists(order_id, work_name):
                     continue
 
-                planned_hours: str = planned_hours.replace(" ", "").replace(",", ".")
-                db_manager.works.add_work(order_id, work_name, Decimal(planned_hours))
+                planned_hours_str: str = planned_hours.replace(" ", "").replace(",", ".")
+                db_manager.works.add_work(order_id, work_name, Decimal(planned_hours_str))
 
         flash(message=MESSAGES["orders"]["order_added"], category="info")
         return render_template("control/orders/add_order.html")
@@ -129,6 +129,7 @@ def edit_order(order_id: int) -> Union[str, Response]:
             "order_name": order_name,
         }
         db_manager.orders.update_order(**args)
+        create_log("UPDATE", order_id, "order")
 
         flash(message=MESSAGES["orders"]["order_updated"], category="info")
         return redirect(url_for("control.orders.edit_order", order_id=order_id))
@@ -141,6 +142,7 @@ def edit_order(order_id: int) -> Union[str, Response]:
 def delete_order(order_id: int) -> Response:
     page: int = request.form.get("page", 1, int)
     db_manager.orders.delete_order(order_id)
+    create_log("DELETE", order_id, "order")
     return redirect(url_for("control.orders.orders_table", page=page))
 
 

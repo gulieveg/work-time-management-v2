@@ -3,7 +3,7 @@ from typing import Dict
 from flask import Blueprint, render_template
 from flask_login import current_user, login_required
 
-from app.db import DatabaseManager
+from app.db import db_manager
 from app.utils import permission_required
 
 from .employees import employees_bp
@@ -23,8 +23,6 @@ control_bp.register_blueprint(orders_bp)
 control_bp.register_blueprint(reports_bp)
 control_bp.register_blueprint(users_bp)
 control_bp.register_blueprint(works_bp)
-
-db_manager: DatabaseManager = DatabaseManager()
 
 
 @control_bp.route("", methods=["GET"])

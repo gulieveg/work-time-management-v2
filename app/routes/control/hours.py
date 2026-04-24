@@ -2,13 +2,12 @@ from decimal import Decimal
 from typing import Dict, List, Tuple, Union
 
 from flask import Blueprint, Response, flash, redirect, render_template, request, url_for
-from flask_login import login_required
+from flask_login import current_user, login_required
 
-from app.db import DatabaseManager
-from app.utils import MESSAGES, permission_required
+from app.db import db_manager
+from app.utils import MESSAGES, create_log, permission_required
 
 hours_bp: Blueprint = Blueprint("hours", __name__, url_prefix="/hours")
-db_manager: DatabaseManager = DatabaseManager()
 
 
 @hours_bp.route("/add", methods=["GET", "POST"])
@@ -23,7 +22,8 @@ def add_hours() -> Union[str, Response]:
         order_id: int = db_manager.orders.get_order_id_by_number(order_number)
         order_name: str = db_manager.orders.get_order_name_by_number(order_number)
 
-        db_manager.hours.add_hours(order_name, order_number, order_id, work_name, Decimal(spent_hours))
+        hours_id = db_manager.hours.add_hours(order_name, order_number, order_id, work_name, Decimal(spent_hours))
+        create_log("CREATE", hours_id, "hours")
 
         flash(message=MESSAGES["hours"]["hours_added"], category="info")
         return render_template("control/hours/add_hours.html")
@@ -36,6 +36,7 @@ def add_hours() -> Union[str, Response]:
 def delete_hours(hours_id: int, order_number: str, work_name: str) -> Response:
     order_id: int = db_manager.orders.get_order_id_by_number(order_number)
     db_manager.hours.delete_hours(hours_id, order_id, work_name)
+    create_log("DELETE", hours_id, "hours")
     return redirect(url_for("control.hours.hours_table"))
 
 

@@ -87,3 +87,13 @@ export function fetchOrderNumber(orderName, orderNumberInput) {
             }
         });
 }
+
+
+export function toggleLogDetails(button) {
+    button.classList.toggle("active");
+    const details = button.closest(".log-item").querySelector(".log-details");
+    details.classList.toggle("visible");
+}
+
+
+window.toggleLogDetails = toggleLogDetails;

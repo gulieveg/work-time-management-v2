@@ -6,18 +6,16 @@ from decouple import config
 from flask import Flask
 from flask_login import LoginManager
 
-from .db import DatabaseManager
-from .middlewares import register_middlewares
 from .models import User
 from .routes import register_routes
 from .utils import MESSAGES, encoding, register_error_handlers, register_template_filters
 
 login_manager: LoginManager = LoginManager()
-db_manager: DatabaseManager = DatabaseManager()
 
 
 @login_manager.user_loader
 def load_user(user_id: int) -> Optional[User]:
+    from app.db import db_manager
     user_data: Optional[Dict[str, Union[str, int]]] = db_manager.users.get_user_data_by_id(user_id)
     if user_data is None:
         return None
@@ -40,7 +38,6 @@ def create_app() -> Flask:
 
     register_template_filters(app)
     register_routes(app)
-    # register_middlewares(app)
     register_error_handlers(app)
 
     login_manager.init_app(app)
